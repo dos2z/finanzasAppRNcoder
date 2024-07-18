@@ -6,6 +6,7 @@ import NewAction from '../screens/NewAction'
 import ExchangeRates from '../screens/ExchangeRates'
 import Profile from '../screens/Profile'
 import { MaterialIcons } from '@expo/vector-icons';
+import { colors } from '../global/colors'
 
 
 const Tab = createBottomTabNavigator()
@@ -15,53 +16,50 @@ const BottomTabNavigation = () => {
         <Tab.Navigator
             screenOptions={{
                 tabBarShowLabel: false,
+                tabBarActiveTintColor: colors.mainColor,
+               
             }}
         >
             <Tab.Screen name='Inicio' component={Home}
                 options={{
-                    tabBarIcon: ({ focused }) => {
+                    tabBarIcon: ({ color, focused }) => {
                         return (
-                            <View>
-                                <MaterialIcons name="home" size={focused ? 36 : 24} color={focused ? 'tomato' : 'grey'} />
-                            </View>)
+                            <MaterialIcons name="home" size={!focused?32:48} color={color} />
+                        )
                     }
                 }}
             />
             <Tab.Screen name='Cuentas' component={FinancialAccounts}
                 options={{
-                    tabBarIcon: ({ focused }) => {
+                    tabBarIcon: ({ color, focused }) => {
                         return (
-                            <View>
-                                <MaterialIcons name="account-balance" size={focused ? 36 : 24} color={focused ? 'tomato' : 'grey'} />
-                            </View>)
+                            <MaterialIcons name="account-balance" size={!focused?32:48} color={color} />
+                        )
                     }
                 }} />
             <Tab.Screen name='Agregar movimiento' component={NewAction}
                 options={{
-                    tabBarIcon: ({ focused }) => {
+                    tabBarIcon: ({ color, focused }) => {
                         return (
-                            <View>
-                                <MaterialIcons name="add-circle" size={focused ? 48 : 24} color={focused ? 'tomato' : 'grey'} />
-                            </View>)
+                            <MaterialIcons name="add-circle" size={!focused?32:48} color={color} />
+                        )
 
                     }
                 }} />
             <Tab.Screen name='Tipos de Cambio' component={ExchangeRates}
                 options={{
-                    tabBarIcon: ({ focused }) => {
+                    tabBarIcon: ({ color, focused }) => {
                         return (
-                            <View>
-                                <MaterialIcons name="currency-exchange" size={focused ? 36 : 24} color={focused ? 'tomato' : 'grey'} />
-                            </View>)
+                            <MaterialIcons name="currency-exchange" size={!focused?32:48} color={color} />
+                        )
                     }
                 }} />
             <Tab.Screen name='Usuario' component={Profile}
                 options={{
-                    tabBarIcon: ({ focused }) => {
+                    tabBarIcon: ({ color, focused }) => {
                         return (
-                            <View>
-                                <MaterialIcons name="account-circle" size={focused ? 36 : 24} color={focused ? 'tomato' : 'grey'} />
-                            </View>)
+                            <MaterialIcons name="account-circle" size={!focused?32:48} color={color} />
+                        )
                     }
                 }} />
         </Tab.Navigator>
