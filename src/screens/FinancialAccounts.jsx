@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Modal} from 'react-native'
 import { useState } from 'react'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { accountsIcons } from '../data/icons';
+import { accountsIcons } from '../global/icons';
 import { colorsPiccker } from '../global/colors';
 import AddAccount from '../components/AddAccount';
 
