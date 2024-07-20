@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, ScrollView, Modal} from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Modal, Pressable } from 'react-native'
 import { useState } from 'react'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { accountsIcons } from '../global/icons';
-import { colorsPiccker } from '../global/colors';
+import { myAccounts } from '../data/accounts';
 import AddAccount from '../components/AddAccount';
 
 
@@ -15,28 +14,27 @@ const FinancialAccounts = () => {
   }
 
 
-
-
-
   return (
     <View style={styles.container}>
-      <Text>Cuentas</Text>
+      
       <ScrollView style={styles.accountsContainer}>
-        <View style={styles.card}>
-          <Text>Banco Santander</Text>
-          <Text>$200.000</Text>
 
-        </View>
+        {myAccounts.map(account => {
+          return (
+            <Pressable style={styles.card} >
+              <View style={[styles.iconContainer, {backgroundColor: account.accountColor}]}>
+                <MaterialCommunityIcons name={account.accountIcon} size={32} color="black" />
+              </View>
+              <View style={{gap: 10}}>
+                <Text style={{fontSize: 16, fontStyle: 'italic'}}>{account.accountName}</Text>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>$ {account.accountAmount}</Text>
+              </View>
 
-        <View style={styles.card}>
-          <View>
 
-            <Text>Efectivo</Text>
-          </View>
+            </Pressable>
+          )
 
-          <Text>$55.300</Text>
-
-        </View>
+        })}
 
 
       </ScrollView>
@@ -51,7 +49,7 @@ const FinancialAccounts = () => {
 
       <Modal
         visible={showAddAccount}>
-        <AddAccount handleShow={setShowAddAccount} show={showAddAccount}/>
+        <AddAccount handleShow={setShowAddAccount} show={showAddAccount} />
 
       </Modal>
     </View>
@@ -79,69 +77,24 @@ const styles = StyleSheet.create({
   card: {
     margin: 10,
     padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 50,
     backgroundColor: 'white',
     borderRadius: 20,
     width: '90%',
   },
+  iconContainer: {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+  },
   buttonsContainer: {
     gap: 10,
   },
-//Estilos del Modal
-  modaLContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-  },
-  inputContainer: {
-    width: 250,
-    flexDirection: 'row',
-    gap: 5,
-    justifyContent: 'flex-start',
-    overflow: 'hidden',
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    width: '100%',
-    color: 'black',
-
-  },
-  iconContainer: {
-    margin: 20,
-    width: 250,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 20,
-  },
-  newAccountIcon: {
-    padding: 5,
-    borderRadius: 10,
-  },
-  colorPickerContainer: {
-    margin: 20,
-    width: 250,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 20,
-  },
-  colorPick: {
-    borderRadius: 30,
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalButtonContainer: {
-    margin: 50,
-    flexDirection: 'row',
-    gap: 20,
-  }
-
+  
+ 
 
 })

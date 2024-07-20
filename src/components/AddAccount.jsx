@@ -19,6 +19,7 @@ const AddAccount = ({ handleShow, show }) => {
             accountAmount: accountInitialAmount,
             accountIcon: iconName,
             accountColor: colorChosed,
+            accountId: Math.random()
         }
         console.log(newAccount)
     }
