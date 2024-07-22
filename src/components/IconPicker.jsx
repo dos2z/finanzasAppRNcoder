@@ -57,12 +57,12 @@ const IconPicker = ({ colorChosed, iconId, setIconId, setIconName, iconColection
                                         backgroundColor: colorChosed,
                                         shadowColor: "#000000",
                                         shadowOffset: {
-                                            width: 0,
-                                            height: 2,
+                                            width: 7,
+                                            height: 6,
                                         },
                                         shadowOpacity: 0.17,
                                         shadowRadius: 2.54,
-                                        elevation: 3,
+                                        elevation: 7,
                                     }]} onPress={() => handleSelectIcon(icon.id, icon.name)}>
                                     <MaterialCommunityIcons name={icon.name} size={48} color="white" />
                                 </Pressable>

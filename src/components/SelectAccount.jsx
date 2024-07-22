@@ -9,16 +9,7 @@ const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTo
 
     const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
 
-    const totalAccount = {
-        name: 'Total',
-        amount: Number(total),
-        icon: 'account-cash',
-        color: 'gold',
-        id: `total${this.icon}${this.color}`
-    }
-    if(accountSelected === 'Total' && showTotal){
-        setAccountSelected(totalAccount)
-    }
+    
 
     const handleSelectAccount = (acc) => {
         setAccountSelected(acc)
@@ -34,18 +25,18 @@ const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTo
 
                        {showTotal && <Pressable
                             style={styles.card}
-                            onPress={() => handleSelectAccount(totalAccount)}>
+                            onPress={() => handleSelectAccount(total)}>
 
-                            <View style={[styles.checkBox, totalAccount.id === accountSelected.id && { backgroundColor: totalAccount.color }]}>
-                                <MaterialCommunityIcons name="check" size={18} color={totalAccount.id != accountSelected.id ? 'white' : 'black'} />
+                            <View style={[styles.checkBox, total.id === accountSelected.id && { backgroundColor: total.color }]}>
+                                <MaterialCommunityIcons name="check" size={18} color={total.id != accountSelected.id ? 'white' : 'black'} />
                             </View>
 
-                            <View style={[styles.iconContainer, { backgroundColor: totalAccount.color }]}>
-                                <MaterialCommunityIcons name={totalAccount.icon} size={32} color='black' />
+                            <View style={[styles.iconContainer, { backgroundColor: total.color }]}>
+                                <MaterialCommunityIcons name={total.icon} size={32} color='black' />
                             </View>
                             <View style={{ gap: 10 }}>
                                 <Text style={{ fontSize: 16, fontStyle: 'italic' }}>Total</Text>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>$ {total}</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>$ {total.amount}</Text>
                             </View>
                         </Pressable>}
 

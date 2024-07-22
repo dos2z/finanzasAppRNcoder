@@ -25,7 +25,7 @@ const FinancialAccounts = () => {
     <View style={styles.container}>
 
 
-      <Text style={styles.title}>Total: $ {total}</Text>
+      <Text style={styles.title}>Total: $ {total.amount}</Text>
 
 
       <ScrollView style={styles.accountsContainer}>

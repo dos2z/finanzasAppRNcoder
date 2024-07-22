@@ -7,26 +7,34 @@ export const accountsSlice = createSlice({
     name: 'accounts',
     initialState: {
         value: {
-            accounts: [],  
-            total: null, 
+            accounts: [],
+            total: {
+                name: 'Total',
+                amount: null,
+                icon: 'account-cash',
+                color: 'gold',
+                id: `total${this.icon}${this.color}`
+            }
         }
     },
     reducers: {
         addAccount: (state, { payload }) => {
             state.value.accounts.push(payload)
 
-           const total =  state.value.accounts.reduce((total, account)=>(
+            const totalAmount = state.value.accounts.reduce((total, account) => (
                 total += account.amount
-            ),0)
-            state.value = {...state.value,  
-                total}
+            ), 0)
+            state.value.total = {
+                ...state.value.total,
+                amount: totalAmount
+            }
         },
-       
-        
+
+
     }
 })
 
-export const {addAccount} = accountsSlice.actions
+export const { addAccount } = accountsSlice.actions
 
 
 export default accountsSlice.reducer

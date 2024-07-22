@@ -1,13 +1,16 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
-
+import { useSelector } from 'react-redux'
 import SelectAccount from '../components/SelectAccount'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 
 const Home = () => {
+    const { total } = useSelector((state) => state.accountsReducer.value)
 
     const [showSelectAccount, setShowSelectAccount] = useState(false)
-    const [accountSelected, setAccountSelected] = useState('Total')
+    const [accountSelected, setAccountSelected] = useState(total)
 
 
     return (
@@ -15,10 +18,16 @@ const Home = () => {
 
 
         <View style={styles.container}>
-            <Text>{accountSelected.name || 'Total'}</Text>
 
-            <Pressable onPress={()=>{setShowSelectAccount(true)}}>
-                <Text>AAAAAA</Text>
+
+            <Pressable style={styles.selectAccountBtn} onPress={() => { setShowSelectAccount(true) }}>
+                <View style={[styles.iconContainer, { backgroundColor: accountSelected.color }]}>
+                    <MaterialCommunityIcons name={accountSelected.icon} size={48} color={accountSelected.color !== '#000001' ? 'black' : 'white'} />
+                </View>
+                <View>
+                    <Text style={{ fontSize: 20 }}>{accountSelected.name || 'Total'}</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{accountSelected.amount || total.amount}</Text>
+                </View>
             </Pressable>
 
 
@@ -34,9 +43,9 @@ const Home = () => {
             </Pressable>
             <Modal visible={showSelectAccount}
                 transparent={true}>
-                <SelectAccount accountSelected={accountSelected} 
-                setAccountSelected={setAccountSelected} exit={setShowSelectAccount} 
-                show={showSelectAccount} showTotal={true} />
+                <SelectAccount accountSelected={accountSelected}
+                    setAccountSelected={setAccountSelected} exit={setShowSelectAccount}
+                    show={showSelectAccount} showTotal={true} />
             </Modal>
 
         </View>
@@ -50,6 +59,26 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center'
 
+    },
+    selectAccountBtn: {
+        flexDirection: 'row',
+        gap: 20,
+        margin: 10,
+    },
+    iconContainer: {
+        width: 56,
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 2,
+            height: 4,
+        },
+        shadowOpacity: 0.17,
+        shadowRadius: 2.54,
+        elevation: 7,
     },
     selectZindex: {
         zIndex: 10,
