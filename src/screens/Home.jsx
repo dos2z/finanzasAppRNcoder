@@ -1,12 +1,27 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Select from '../components/Select'
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+
+import SelectAccount from '../components/SelectAccount'
+
 
 const Home = () => {
+
+    const [showSelectAccount, setShowSelectAccount] = useState(false)
+    const [accountSelected, setAccountSelected] = useState('Total')
+
+
     return (
+
+
+
         <View style={styles.container}>
-            <Text>Inicio</Text>
-            <Select style={styles.selectZindex} title='Cuentas' />
+            <Text>{accountSelected.name || 'Total'}</Text>
+
+            <Pressable onPress={()=>{setShowSelectAccount(true)}}>
+                <Text>AAAAAA</Text>
+            </Pressable>
+
+
 
 
             <View style={styles.graphicContainer}>
@@ -17,6 +32,12 @@ const Home = () => {
             <Pressable style={styles.btn}>
                 <Text>Detalle</Text>
             </Pressable>
+            <Modal visible={showSelectAccount}
+                transparent={true}>
+                <SelectAccount accountSelected={accountSelected} 
+                setAccountSelected={setAccountSelected} exit={setShowSelectAccount} 
+                show={showSelectAccount} showTotal={true} />
+            </Modal>
 
         </View>
     )
@@ -34,7 +55,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
     },
 
-    amountsContainer:{
+    amountsContainer: {
         zIndex: 1,
 
     },

@@ -1,33 +1,47 @@
 import { StyleSheet, Text, View, ScrollView, Modal, Pressable } from 'react-native'
 import { useState } from 'react'
+import AddAccount from '../components/AddAccount'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { myAccounts } from '../data/accounts';
-import AddAccount from '../components/AddAccount';
+
+
+import { useSelector } from 'react-redux';
 
 
 const FinancialAccounts = () => {
   const [showAddAccount, setShowAddAccount] = useState(false)
+
+  const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
+
 
   const handleShowAddAccount = () => {
     setShowAddAccount(!showAddAccount)
   }
 
 
+
+
   return (
     <View style={styles.container}>
-      
+
+
+      <Text style={styles.title}>Total: $ {total}</Text>
+
+
       <ScrollView style={styles.accountsContainer}>
 
         {myAccounts.map(account => {
           return (
-            <Pressable style={styles.card} >
-              <View style={[styles.iconContainer, {backgroundColor: account.accountColor}]}>
-                <MaterialCommunityIcons name={account.accountIcon} size={32} color="black" />
+            <Pressable key={account.id}
+              style={styles.card} 
+              
+              >
+              <View style={[styles.iconContainer, { backgroundColor: account.color }]}>
+                <MaterialCommunityIcons name={account.icon} size={32} color={account.color !== '#000001'? 'black': 'white'} />
               </View>
-              <View style={{gap: 10}}>
-                <Text style={{fontSize: 16, fontStyle: 'italic'}}>{account.accountName}</Text>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>$ {account.accountAmount}</Text>
+              <View style={{ gap: 10 }}>
+                <Text style={{ fontSize: 16, fontStyle: 'italic' }}>{account.name}</Text>
+                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>$ {account.amount}</Text>
               </View>
 
 
@@ -94,7 +108,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     gap: 10,
   },
-  
- 
+
+
 
 })

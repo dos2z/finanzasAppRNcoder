@@ -47,8 +47,8 @@ const IconPicker = ({ colorChosed, iconId, setIconId, setIconName, iconColection
                 fontWeight: 'bold',
                 fontSize: 16
             }}>Símbolos</Text>
-            <View style={styles.iconPickerContainer} horizontal={true}>
-                <ScrollView horizontal={true}>
+            <View style={styles.iconPickerContainer}>
+                <View>
                     <View style={styles.iconContainer}>
                         {iconColection.map(icon => {
                             return (
@@ -70,7 +70,7 @@ const IconPicker = ({ colorChosed, iconId, setIconId, setIconName, iconColection
                         })}
 
                     </View>
-                </ScrollView>
+                </View>
 
                 {
                     iconColection.length > 9 &&

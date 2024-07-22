@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const [first, setfirst] = useState(second)
-
 
 
 export const accountsSlice = createSlice({
@@ -9,14 +7,26 @@ export const accountsSlice = createSlice({
     name: 'accounts',
     initialState: {
         value: {
-            accounts: [],
-            
+            accounts: [],  
+            total: null, 
         }
     },
     reducers: {
         addAccount: (state, { payload }) => {
             state.value.accounts.push(payload)
+
+           const total =  state.value.accounts.reduce((total, account)=>(
+                total += account.amount
+            ),0)
+            state.value = {...state.value,  
+                total}
         },
+       
         
     }
 })
+
+export const {addAccount} = accountsSlice.actions
+
+
+export default accountsSlice.reducer

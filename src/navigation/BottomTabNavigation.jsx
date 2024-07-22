@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../screens/Home'
 import FinancialAccounts from '../screens/FinancialAccounts'
-import NewAction from '../screens/NewAction'
+import NewTransaction from '../screens/NewTransaction'
 import ExchangeRates from '../screens/ExchangeRates'
 import Profile from '../screens/Profile'
 import { MaterialIcons } from '@expo/vector-icons';
@@ -37,7 +37,7 @@ const BottomTabNavigation = () => {
                         )
                     }
                 }} />
-            <Tab.Screen name='Agregar movimiento' component={NewAction}
+            <Tab.Screen name='Agregar movimiento' component={NewTransaction}
                 options={{
                     tabBarIcon: ({ color, focused }) => {
                         return (

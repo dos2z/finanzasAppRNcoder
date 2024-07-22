@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
 
-const MyInputText = ({label, initialValue, onChange}) => {
+const MyInputText = ({label, initialValue, onChange, keyboardType = 'text'}) => {
     return (
         <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>{label}</Text>
-            <TextInput style={styles.input} value={initialValue} onChangeText={onChange} />
+            <TextInput style={styles.input} value={initialValue} onChangeText={onChange} inputMode={keyboardType}/>
         </View>
     )
 }

@@ -1,7 +1,8 @@
 export const colors = {
     mainColor: '#ff6347',
-    BGColor: '#F5DEB3',
+    BGColor: '#fdeed2',
     accept: '#71e57a',
+    BGtranslucid: '#0000008c',
     
 }
 
