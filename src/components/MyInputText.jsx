@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
 
 const MyInputText = ({label, initialValue, onChange, keyboardType = 'text'}) => {
     return (
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     },
     inputLabel: {
         fontSize: 20,
-        fontWeight: 'bold',
+        
     },
     input: {
         borderBottomWidth: 1,

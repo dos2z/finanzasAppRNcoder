@@ -25,7 +25,7 @@ const BottomTabNavigation = () => {
                
             }}
         >
-            <Tab.Screen name='Inicio' component={Home}
+            <Tab.Screen name='home' component={Home}
                 options={{
                     tabBarIcon: ({ color, focused }) => {
                         return (

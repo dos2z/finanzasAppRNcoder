@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Keyboard } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Keyboard, ScrollView } from 'react-native'
 import { useState } from 'react'
 import MyButton from '../components/MyButton'
 import { accountsIcons } from '../global/icons';
@@ -8,6 +8,7 @@ import IconPicker from '../components/IconPicker';
 
 import { useDispatch } from 'react-redux';
 import { addAccount } from '../features/accountsSlice';
+
 
 const AddAccount = ({ navigation }) => {
     const [accountName, setAccountName] = useState('')
@@ -30,8 +31,8 @@ const AddAccount = ({ navigation }) => {
 
 
     const handleAddAccount = () => {
-        if (!accountName || !accountInitialAmount || !iconId) {
-            console.log('Falta agregar algo');
+        if (!accountName || !iconId) {
+                
         } else {
             createNewAccount();
             navigation.goBack()
@@ -41,9 +42,10 @@ const AddAccount = ({ navigation }) => {
 
 
     return (
-        
 
-            <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+
+        <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+            <ScrollView>
                 <Text style={{
                     fontSize: 24,
                     marginTop: 20,
@@ -51,9 +53,10 @@ const AddAccount = ({ navigation }) => {
                     Nueva Cuenta
                 </Text>
 
+                {!accountName && <Text style={{ color: 'red', }}>Introduzca un nombre para la cuenta</Text>}
                 <MyInputText label={'Nombre'} initialValue={accountName} onChange={setAccountName} />
 
-                <MyInputText label={'Monto Inicial  $'} initialValue={accountInitialAmount} onChange={setAccountInitialAmount} keyboardType={'decimal'}/>
+                <MyInputText label={'Monto Inicial  $'} initialValue={accountInitialAmount} onChange={setAccountInitialAmount} keyboardType={'decimal'} />
 
                 <IconPicker colorChosed={colorChosed} iconId={iconId} setIconId={setIconId} setIconName={setIconName} iconColection={accountsIcons} />
 
@@ -61,11 +64,11 @@ const AddAccount = ({ navigation }) => {
 
                 <View style={styles.buttonContainer}>
                     <MyButton title={'Agregar'} type={'accept'} onPress={handleAddAccount} />
-                    <MyButton title={'Cancelar'} type={'cancel'} onPress={()=>navigation.goBack()} />
+                    <MyButton title={'Cancelar'} type={'cancel'} onPress={() => navigation.goBack()} />
                 </View>
+            </ScrollView>
+        </Pressable>
 
-            </Pressable>
-        
     )
 }
 
@@ -74,7 +77,6 @@ export default AddAccount
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,

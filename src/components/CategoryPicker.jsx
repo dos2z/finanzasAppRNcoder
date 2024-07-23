@@ -20,7 +20,7 @@ const CategoryPicker = ({ categorySelected, setCategorySelected, navigation, tra
 
 
         <View style={styles.container}>
-            <Text style={styles.title}>Seleccionar categoría</Text>
+            <Text style={[styles.title, !categorySelected&&{color: 'red'}]}>Seleccionar categoría</Text>
             <View style={styles.categoriesContainer}>
                 {myCategories.map(category => {
 

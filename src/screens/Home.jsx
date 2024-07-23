@@ -10,9 +10,9 @@ import MyButton from '../components/MyButton';
 
 
 const Home = () => {
-    const [myTransactions, setMyTransactions] = useState(expensesTransactions)
-    const { total } = useSelector((state) => state.accountsReducer.value)
     const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactionsReducer.value)
+    const { total } = useSelector((state) => state.accountsReducer.value)
+    const [myTransactions, setMyTransactions] = useState(expensesTransactions)
 
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
@@ -54,7 +54,8 @@ const Home = () => {
                     <MyButton title={'Ingresos'} onPress={() => setMyTransactions(incomesTransactions)} />
                 </View>
 
-                <FlatList />
+                <FlatList 
+                data={myTransactions}/>
 
 
 
