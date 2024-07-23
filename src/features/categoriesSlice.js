@@ -8,15 +8,15 @@ export const categoriesSlice = createSlice({
     initialState: {
         value: {
             expensesCategories: [],  
-            incomeCategories: [], 
+            incomesCategories: [], 
         }
     },
     reducers: {
         addExpensesCategory: (state, { payload }) => {
-            state.value.billCategories.push(payload)
+            state.value.expensesCategories.push(payload)
         },
         addIncomeCategory: (state, { payload }) => {
-            state.value.incomeCategories.push(payload)
+            state.value.incomesCategories.push(payload)
         },
        
         

@@ -1,10 +1,15 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { myBillCategories } from '../data/categories'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const CategoryPicker = ({ categorySelected, setCategorySelected }) => {
+
+
+const CategoryPicker = ({ categorySelected, setCategorySelected, navigation, transactionType, myCategories }) => {
+   
+   
+
+  
+   
 
     const handleSelectCategory = (cat) => {
         setCategorySelected(cat)
@@ -17,33 +22,32 @@ const CategoryPicker = ({ categorySelected, setCategorySelected }) => {
         <View style={styles.container}>
             <Text style={styles.title}>Seleccionar categoría</Text>
             <View style={styles.categoriesContainer}>
-                {myBillCategories.map(category => {
+                {myCategories.map(category => {
 
                     return (
                         <Pressable key={category.id}
                             style={[styles.categoryContainer,
                             category.id != categorySelected.id ?
                                 { backgroundColor: 'white' }
-                                : { backgroundColor: category.categoryColor }]
+                                : { backgroundColor: category.color }]
                             }
                             onPress={() => handleSelectCategory(category)}>
-                            <View style={[styles.iconContainer, { backgroundColor: category.categoryColor }]}>
-                                <MaterialCommunityIcons name={category.categoryIcon} size={48} color="white" />
+                            <View style={[styles.iconContainer, { backgroundColor: category.color }]}>
+                                <MaterialCommunityIcons name={category.icon} size={48} color="white" />
 
                             </View>
                             <Text
                                 style={category.id != categorySelected.id ? { color: 'black' } : { color: 'white', fontWeight: 'bold' }}
-                            >{category.categoryName}</Text>
+                            >{category.name}</Text>
                         </Pressable>
                     )
                 })}
-                <Pressable style={styles.addCategoryBtn}>
+                <Pressable style={styles.addCategoryBtn}
+                onPress={()=>navigation.navigate('addCategory', {transactionType})}>
                     <MaterialCommunityIcons name='plus-circle' size={32} color={'black'} />
                     <Text>Crear</Text>
                 </Pressable>
             </View>
-
-
 
         </View>
     )
@@ -64,6 +68,7 @@ const styles = StyleSheet.create({
     },
     categoriesContainer: {
         flexDirection: 'row',
+        alignItems: 'flex-start',
         flexWrap: 'wrap',
         gap: 20,
         width: 250,

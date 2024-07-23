@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Keyboard } from 'react-native'
 import { useState } from 'react'
 import MyButton from '../components/MyButton'
 import { accountsIcons } from '../global/icons';

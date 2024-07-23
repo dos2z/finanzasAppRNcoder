@@ -1,60 +1,35 @@
-import { Pressable, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
-import CategoryPicker from '../components/CategoryPicker'
-import Expenses from '../components/Expenses'
-import Incomes from '../components/Incomes'
+import { StyleSheet} from 'react-native'
+
+import Expenses from './Expenses'
+import Incomes from './Incomes'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import AddCategory from './AddCategory'
 
 const NewAction = () => {
 
-    const [isExpenses, setIsExpenses] = useState(true)
 
+
+    const Stack = createNativeStackNavigator()
 
 
 
     return (
-        <View>
-            <View style={styles.headerButtonsContainer} >
-                <Pressable style={[styles.headerButton, isExpenses && {backgroundColor: 'white'}]} onPress={() => setIsExpenses(true)}>
-                    <Text style={styles.buttonText}>Gastos</Text>
-                </Pressable>
-                <Pressable style={[styles.headerButton, !isExpenses && {backgroundColor: 'white'}]} onPress={() => setIsExpenses(false)}>
-                    <Text style={styles.buttonText}>Ingresos</Text>
-                </Pressable>
-            </View>
+     
 
-           
-
-            {
-                isExpenses ? <Expenses /> : <Incomes />
-            }
-
-
-
-
-
-        </View>
+        <Stack.Navigator
+        screenOptions={{
+            headerShown: false
+        }}> 
+            <Stack.Screen name='expenses' component={Expenses} />
+            <Stack.Screen name='incomes' component={Incomes}/>
+            <Stack.Screen name='addCategory' component={AddCategory} />
+        </Stack.Navigator>
     )
 }
 
 export default NewAction
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    headerButtonsContainer: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-    },
-    headerButton: {
-        width: '50%',
-        padding: 10,
-        alignItems: 'center',
-        borderTopStartRadius: 20,
-        borderTopEndRadius: 20,
-    },
-    buttonText: {
-        fontSize: 20,
-    }
+   
+
 })
