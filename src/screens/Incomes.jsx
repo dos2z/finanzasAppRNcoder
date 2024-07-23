@@ -25,7 +25,8 @@ const Incomes = ({ navigation }) => {
 
   return (
 
-    <Pressable onPress={Keyboard.dismiss} >
+    <Pressable onPress={Keyboard.dismiss} 
+    style={styles.container}>
       <ScrollView>
         <View style={styles.headerBtnContainer}>
           <Pressable style={styles.headerButton}
@@ -36,7 +37,7 @@ const Incomes = ({ navigation }) => {
             <Text style={styles.buttonText}>Ingresos</Text>
           </View>
         </View>
-        <View style={styles.container}>
+        <View style={styles.componentContainer}>
           <Transaction transactionType={'income'} navigation={navigation} myCategories={myCategories}/>
         </View>
       </ScrollView>
@@ -52,7 +53,11 @@ const Incomes = ({ navigation }) => {
 export default Incomes
 
 const styles = StyleSheet.create({
-  container: {
+container: {
+  backgroundColor: colors.BGColor
+},
+
+  componentContainer: {
     padding: 24,
     justifyContent: 'center',
     backgroundColor: 'white',

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Pressable, ScrollView, Keyboard } from 'react-n
 import Transaction from '../components/Transaction'
 
 import { useSelector } from 'react-redux'
+import { colors } from '../global/colors'
 
 
 
@@ -42,7 +43,7 @@ export default Expenses
 
 const styles = StyleSheet.create({
   container:{
-    paddingVertical: 50,
+    backgroundColor: colors.BGColor
   },
   componentContainer: {
     padding: 24,

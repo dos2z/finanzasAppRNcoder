@@ -24,7 +24,7 @@ const MyButton = ({ title, onPress, type }) => {
 
 
     return (
-        <Pressable style={[styles.button, borderStyle]} onPress={onPress}>
+        <Pressable style={({pressed})=>[styles.button, borderStyle, {opacity: pressed ? 0.6 : 1}]} onPress={onPress}>
             <Text style={styles.buttonText}>{title}</Text>
         </Pressable>
     )
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 5,
         padding: 5,
+        backgroundColor: colors.BGbutton,
     },
     accept: {
         borderColor: colors.accept,

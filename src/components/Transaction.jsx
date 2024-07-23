@@ -33,7 +33,8 @@ const Transaction = ({transactionType, navigation, myCategories}) => {
         account: accountSelected,
         category: categorySelected,
         date: dateSelected,
-        comment: comment
+        comment: comment,
+        id: new Date().toString(),
       }
       console.log(newTransaction);
       if(transactionType==='expenses'){
@@ -88,7 +89,11 @@ const Transaction = ({transactionType, navigation, myCategories}) => {
 
       <Text>Foto ???</Text>
 
-      <MyButton title={'Confirmar'} onPress={handleAddTransaction} type={'accept'} />
+      <View style={styles.buttonContainer}>
+         <MyButton title={'Confirmar'} onPress={handleAddTransaction} type={'accept'} />
+      </View>
+
+     
 
       <Modal
         visible={showModal}
@@ -141,5 +146,9 @@ const styles = StyleSheet.create({
       padding: 10,
       width: '90%',
       backgroundColor: 'white',
+    },
+    buttonContainer:{
+      alignItems: 'center',
+      margin: 10,
     }
   })

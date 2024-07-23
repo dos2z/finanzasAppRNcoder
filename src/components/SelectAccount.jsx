@@ -9,7 +9,7 @@ const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTo
 
     const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
 
-    
+
 
     const handleSelectAccount = (acc) => {
         setAccountSelected(acc)
@@ -23,7 +23,7 @@ const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTo
                 <View style={styles.accountsContainer}>
                     <ScrollView >
 
-                       {showTotal && <Pressable
+                        {showTotal && <Pressable
                             style={styles.card}
                             onPress={() => handleSelectAccount(total)}>
 
@@ -68,7 +68,11 @@ const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTo
                     </ScrollView>
                 </View >
 
-                <MyButton title={'Cancelar'} onPress={() => { exit(!show) }} type={'cancel'} />
+                <View style={styles.btnContainer}>
+                    <MyButton title={'Cancelar'} onPress={() => { exit(!show) }} type={'cancel'} />
+                </View>
+
+
 
             </View>
 
@@ -129,6 +133,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50,
+    },
+    btnContainer: {
+        marginTop: 20,
     },
 
 })

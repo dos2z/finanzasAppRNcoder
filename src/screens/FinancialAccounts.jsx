@@ -1,6 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Modal, Pressable } from 'react-native'
-import { useState } from 'react'
-
+import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -9,14 +7,8 @@ import { useSelector } from 'react-redux';
 
 
 const FinancialAccounts = ({navigation}) => {
-  const [showAddAccount, setShowAddAccount] = useState(false)
 
   const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
-
-
-  const handleShowAddAccount = ({navigation}) => {
-    setShowAddAccount(!showAddAccount)
-  }
 
 
 
