@@ -73,35 +73,5 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
   },
-  dateContainer: {
-    height: 600,
-  },
 
-
-  inputCommentContainer: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    position: 'absolute',
-    width: '150%',
-    height: '300%',
-    marginBottom: 200,
-    alignItems: 'center',
-    backgroundColor: colors.BGtranslucid,
-  },
-  inputCommentCard: {
-    padding: 40,
-    width: '95%',
-    height: 250,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    backgroundColor: 'white',
-  },
-  inputComment: {
-    fontSize: 20,
-    padding: 10,
-    width: '90%',
-    backgroundColor: 'white',
-  }
 })

@@ -68,7 +68,7 @@ const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTo
                     </ScrollView>
                 </View >
 
-                <MyButton title={'Cancelar'} onPress={() => { exit(!show) }} cancel={true} />
+                <MyButton title={'Cancelar'} onPress={() => { exit(!show) }} type={'cancel'} />
 
             </View>
 

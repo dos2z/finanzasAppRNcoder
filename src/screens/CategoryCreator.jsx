@@ -13,8 +13,8 @@ const CategoryCreation = () => {
     <ColorPicker colorChosed={colorChosed} setColorChosed={setColorChosed} />
 
     <View style={styles.buttonContainer}>
-        <MyButton title={'Crear'} onPress={createCategory}/>
-        <MyButton title={'Cancelar'} onPress={handleCancel} cancel={true}/>
+        <MyButton title={'Crear'} onPress={createCategory} type={'accept'}/>
+        <MyButton title={'Cancelar'} onPress={handleCancel} type={'cancel'}/>
     </View>
 
 

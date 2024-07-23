@@ -7,6 +7,7 @@ import ExchangeRates from '../screens/ExchangeRates'
 import Profile from '../screens/Profile'
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors'
+import FinancialAccountsStackNavigation from './FinancialAccountsStackNavigation'
 
 
 const Tab = createBottomTabNavigator()
@@ -15,8 +16,12 @@ const BottomTabNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={{
+                
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: colors.mainColor,
+                tabBarStyle: {
+                    height: 90,
+                }
                
             }}
         >
@@ -29,7 +34,7 @@ const BottomTabNavigation = () => {
                     }
                 }}
             />
-            <Tab.Screen name='Cuentas' component={FinancialAccounts}
+            <Tab.Screen name='Cuentas' component={FinancialAccountsStackNavigation}
                 options={{
                     tabBarIcon: ({ color, focused }) => {
                         return (

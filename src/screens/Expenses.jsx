@@ -12,7 +12,8 @@ const Expenses = ({ navigation }) => {
 
 
   return (
-    <Pressable onPress={Keyboard.dismiss}>
+    <Pressable onPress={Keyboard.dismiss}
+    style={styles.container}>
       <ScrollView>
         <View style={styles.headerBtnContainer}>
           <View style={[styles.headerButton, { backgroundColor: 'white' }]}>
@@ -23,7 +24,7 @@ const Expenses = ({ navigation }) => {
           </Pressable>
         </View>
 
-        <View style={styles.container}>
+        <View style={styles.componentContainer}>
           <Transaction transactionType={'expenses'} navigation={navigation} myCategories={myCategories} />
 
         </View>
@@ -40,7 +41,10 @@ const Expenses = ({ navigation }) => {
 export default Expenses
 
 const styles = StyleSheet.create({
-  container: {
+  container:{
+    paddingVertical: 50,
+  },
+  componentContainer: {
     padding: 24,
     justifyContent: 'center',
     backgroundColor: 'white',

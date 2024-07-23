@@ -51,7 +51,7 @@ const AddCategory = ({navigation, route}) => {
   <Pressable onPress={Keyboard.dismiss} style={styles.container}>
       <Text style={{
           fontSize: 24,
-          margin: 20,
+          marginTop: 50,
       }}>
           Crear categoria de {transactionType === 'expenses' ? 'Gastos' : 'Ingresos'}
       </Text>
@@ -65,8 +65,8 @@ const AddCategory = ({navigation, route}) => {
 
 
       <View style={styles.buttonContainer}>
-          <MyButton title={'Agregar'} onPress={handleAddCategory} />
-          <MyButton title={'Cancelar'} cancel={true} onPress={()=>navigation.goBack()} />
+          <MyButton title={'Agregar'} type={'accept'} onPress={handleAddCategory} />
+          <MyButton title={'Cancelar'} type={'cancel'} onPress={()=>navigation.goBack()} />
       </View>
 
 
@@ -80,7 +80,7 @@ export default AddCategory
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        paddingVertical: 50,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,

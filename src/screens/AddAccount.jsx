@@ -2,14 +2,14 @@ import { Pressable, StyleSheet, Text, View, Keyboard } from 'react-native'
 import { useState } from 'react'
 import MyButton from '../components/MyButton'
 import { accountsIcons } from '../global/icons';
-import MyInputText from './MyInputText';
-import ColorPicker from './ColorPicker';
-import IconPicker from './IconPicker';
+import MyInputText from '../components/MyInputText';
+import ColorPicker from '../components/ColorPicker';
+import IconPicker from '../components/IconPicker';
 
 import { useDispatch } from 'react-redux';
 import { addAccount } from '../features/accountsSlice';
 
-const AddAccount = ({ handleShow, show }) => {
+const AddAccount = ({ navigation }) => {
     const [accountName, setAccountName] = useState('')
     const [accountInitialAmount, setAccountInitialAmount] = useState(0)
     const [iconId, setIconId] = useState('')
@@ -34,44 +34,35 @@ const AddAccount = ({ handleShow, show }) => {
             console.log('Falta agregar algo');
         } else {
             createNewAccount();
-            handleShow(!show)
+            navigation.goBack()
         }
 
     }
 
 
-    const handleShowAddAccount = () => {
-        handleShow(!show)
-    }
-
-
-
     return (
         
 
-            <Pressable onPress={Keyboard.dismiss} style={styles.modaLContainer}>
+            <Pressable onPress={Keyboard.dismiss} style={styles.container}>
                 <Text style={{
                     fontSize: 24,
-                    marginBottom: 20,
+                    marginTop: 20,
                 }}>
                     Nueva Cuenta
                 </Text>
 
                 <MyInputText label={'Nombre'} initialValue={accountName} onChange={setAccountName} />
 
-                <MyInputText label={'Monton Inicial  $'} initialValue={accountInitialAmount} onChange={setAccountInitialAmount} keyboardType={'decimal'}/>
+                <MyInputText label={'Monto Inicial  $'} initialValue={accountInitialAmount} onChange={setAccountInitialAmount} keyboardType={'decimal'}/>
 
                 <IconPicker colorChosed={colorChosed} iconId={iconId} setIconId={setIconId} setIconName={setIconName} iconColection={accountsIcons} />
 
                 <ColorPicker colorChosed={colorChosed} setColorChosed={setColorChosed} />
 
-
-
-                <View style={styles.modalButtonContainer}>
-                    <MyButton title={'Agregar'} onPress={handleAddAccount} />
-                    <MyButton title={'Cancelar'} cancel={true} onPress={handleShowAddAccount} />
+                <View style={styles.buttonContainer}>
+                    <MyButton title={'Agregar'} type={'accept'} onPress={handleAddAccount} />
+                    <MyButton title={'Cancelar'} type={'cancel'} onPress={()=>navigation.goBack()} />
                 </View>
-
 
             </Pressable>
         
@@ -81,13 +72,14 @@ const AddAccount = ({ handleShow, show }) => {
 export default AddAccount
 
 const styles = StyleSheet.create({
-    modaLContainer: {
+    container: {
         flex: 1,
+        
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,
     },
-    modalButtonContainer: {
+    buttonContainer: {
         margin: 50,
         flexDirection: 'row',
         gap: 20,

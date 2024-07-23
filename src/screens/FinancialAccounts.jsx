@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, Modal, Pressable } from 'react-native'
 import { useState } from 'react'
-import AddAccount from '../components/AddAccount'
+
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -8,13 +8,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 
 
-const FinancialAccounts = () => {
+const FinancialAccounts = ({navigation}) => {
   const [showAddAccount, setShowAddAccount] = useState(false)
 
   const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
 
 
-  const handleShowAddAccount = () => {
+  const handleShowAddAccount = ({navigation}) => {
     setShowAddAccount(!showAddAccount)
   }
 
@@ -56,16 +56,9 @@ const FinancialAccounts = () => {
       <View style={styles.buttonsContainer}>
         <MyButton title={'Transferencias'} />
 
-        <MyButton title={'Agregar Cuenta'} onPress={handleShowAddAccount} />
+        <MyButton title={'Agregar Cuenta'} onPress={()=>navigation.navigate('addAccount')} />
       </View>
 
-
-
-      <Modal
-        visible={showAddAccount}>
-        <AddAccount handleShow={setShowAddAccount} show={showAddAccount} />
-
-      </Modal>
     </View>
   )
 }
@@ -77,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 50,
+    paddingVertical: 50,
   },
   title: {
     fontSize: 32,

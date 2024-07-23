@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import SelectAccount from '../components/SelectAccount'
@@ -8,15 +8,17 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Home = () => {
     const { total } = useSelector((state) => state.accountsReducer.value)
+    const { expensesTransactions, incomesTransactions} = useSelector((state) =>state.transactionsReducer.value)
 
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
 
+    console.log(expensesTransactions);
 
     return (
 
 
-
+       
         <View style={styles.container}>
 
 
@@ -57,7 +59,8 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 50,
 
     },
     selectAccountBtn: {

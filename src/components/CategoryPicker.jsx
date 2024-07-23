@@ -44,7 +44,7 @@ const CategoryPicker = ({ categorySelected, setCategorySelected, navigation, tra
                 })}
                 <Pressable style={styles.addCategoryBtn}
                 onPress={()=>navigation.navigate('addCategory', {transactionType})}>
-                    <MaterialCommunityIcons name='plus-circle' size={32} color={'black'} />
+                    <MaterialCommunityIcons name='plus-circle' size={32} color={'tomato'} />
                     <Text>Crear</Text>
                 </Pressable>
             </View>

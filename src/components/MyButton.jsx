@@ -2,9 +2,29 @@ import { StyleSheet, Text, Pressable} from 'react-native'
 import React from 'react'
 import { colors } from '../global/colors'
 
-const MyButton = ({ title, onPress, cancel }) => {
+const MyButton = ({ title, onPress, type }) => {
+
+    const cancel = {
+        borderColor: 'red',
+    }
+    const accept = {
+        borderColor: colors.accept,
+    }
+    const regular = {
+        borderColor: 'black'
+    }
+    let borderStyle
+    if (type === 'accept'){
+        borderStyle = accept
+    }else if(type === 'cancel'){
+        borderStyle = cancel
+    }else{
+        borderStyle = regular
+    }
+
+
     return (
-        <Pressable style={[styles.button, !cancel ? styles.accept : styles.cancel]} onPress={onPress}>
+        <Pressable style={[styles.button, borderStyle]} onPress={onPress}>
             <Text style={styles.buttonText}>{title}</Text>
         </Pressable>
     )

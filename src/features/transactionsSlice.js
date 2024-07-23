@@ -10,9 +10,11 @@ export const transactionsSlice = createSlice({
     },
     reducers: {
         addExpense: (state, { payload }) => {
+            state.value.expensesTransactions.push(payload)
 
-        },
+        }, 
         addIncome: (state, { payload }) => {
+            state.value.incomesTransactions.push(payload)
 
         }
     }

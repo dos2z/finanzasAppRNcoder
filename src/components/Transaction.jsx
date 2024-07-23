@@ -5,6 +5,10 @@ import { useState } from 'react'
 import CategoryPicker from './CategoryPicker'
 import SelectAccount from './SelectAccount'
 import { colors } from '../global/colors'
+import SelectDate from './SelectDate'
+import MyButton from './MyButton'
+import { useDispatch} from 'react-redux'
+import { addExpense, addIncome } from '../features/transactionsSlice'
 
 
 
@@ -16,9 +20,32 @@ const Transaction = ({transactionType, navigation, myCategories}) => {
     const [categorySelected, setCategorySelected] = useState({})
     const [showModal, setShowModal] = useState(false)
     const [accountSelected, setAccountSelected] = useState('')
+    const [dateSelected, setDateSelected] = useState('')
     const [comment, setComment] = useState('')
-  
     const [isFocus, setIsFocus] = useState(false)
+
+    const dispatch = useDispatch()
+
+    const addNewTransaction = ()=>{
+      const newTransaction = {
+        amount: transactionAmount,
+        type: transactionType,
+        account: accountSelected,
+        category: categorySelected,
+        date: dateSelected,
+        comment: comment
+      }
+      console.log(newTransaction);
+      if(transactionType==='expenses'){
+        dispatch(addExpense(newTransaction))
+      }else{
+        dispatch(addIncome(newTransaction))
+      }
+    }
+
+    const handleAddTransaction = ()=>{
+      addNewTransaction()
+    }
   
   
   
@@ -46,7 +73,7 @@ const Transaction = ({transactionType, navigation, myCategories}) => {
 
 
 
-      <Text>Fecha</Text>
+      <SelectDate setDateSelected={setDateSelected} />
 
 
       <View style={isFocus && styles.inputCommentContainer}>
@@ -60,6 +87,8 @@ const Transaction = ({transactionType, navigation, myCategories}) => {
 
 
       <Text>Foto ???</Text>
+
+      <MyButton title={'Confirmar'} onPress={handleAddTransaction} type={'accept'} />
 
       <Modal
         visible={showModal}
