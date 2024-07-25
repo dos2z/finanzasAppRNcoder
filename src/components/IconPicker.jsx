@@ -19,32 +19,6 @@ const IconPicker = ({ colorChosed, iconId, setIconId, setIconName, iconColection
 
     }
 
-    const sliceColection = (colection) => {
-        const itemQuantity = colection.length
-        const resto = itemQuantity % 9
-        let slicesQuantity = itemQuantity / 9
-        if (slicesQuantity < 1) {
-            slicesQuantity = 1
-        }
-        if (resto > 0) {
-            slicesQuantity = + 1
-        }
-        let startElement = 0
-        let endElement = 9
-        let newColection = []
-        for (let i = 0; i <= slicesQuantity; i++) {
-            colection.slice(startElement, endElement)
-            startElement += endElement
-            endElement += 10
-
-        }
-    }
-
-
-
-
-
-
     return (
         <View>
             <View>
@@ -85,6 +59,7 @@ const IconPicker = ({ colorChosed, iconId, setIconId, setIconName, iconColection
                     <Pressable style={{ alignItems: 'center' }}
                         onPress={handleShowIconList}>
                         <MaterialCommunityIcons name="plus-circle" size={36} color="black" />
+                        <Text>Más íconos</Text>
                     </Pressable>
                 }
 
@@ -117,7 +92,7 @@ const IconPicker = ({ colorChosed, iconId, setIconId, setIconName, iconColection
 
 
                     <Pressable>
-                        <Text onPress={() => setModalShow(false)}>Exit</Text>
+                        <Text style={{fontSize: 18}} onPress={() => setModalShow(false)}>Salir</Text>
                     </Pressable>
                 </View>
             </Modal>

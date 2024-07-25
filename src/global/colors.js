@@ -1,9 +1,9 @@
 export const colors = {
     mainColor: '#ff6347',
     BGColor: '#f9fdd2',
-    accept: '#71e57a',
+    accept: '#63ce6c',
     BGtranslucid: '#0000008c',
-    BGbutton: '#f2f5e0'
+    BGbutton: '#fefff7'
     
 }
 

@@ -60,7 +60,6 @@ const FinancialAccounts = ({ navigation }) => {
       </ScrollView>
 
       <View style={styles.buttonsContainer}>
-        <MyButton title={'Transferencias'} />
 
         <MyButton title={'Agregar Cuenta'} onPress={() => navigation.navigate('addAccount')} />
       </View>

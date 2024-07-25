@@ -34,7 +34,7 @@ export default MyButton
 
 const styles = StyleSheet.create({
     button: {
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 5,
         padding: 5,
         backgroundColor: colors.BGbutton,

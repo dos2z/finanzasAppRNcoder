@@ -6,15 +6,30 @@ export const transactionsSlice = createSlice({
         value: {
             expensesTransactions: [],
             incomesTransactions: [],
+            totalExpenses: null,
+            totalIncomes: null,
         }
     },
     reducers: {
         addExpense: (state, { payload }) => {
             state.value.expensesTransactions.push(payload)
 
+            const totalAmount = state.value.expensesTransactions.reduce((total, transaction) => (
+                total += Number(transaction.amount)
+            ), 0)
+            state.value = {
+                ...state.value,
+                totalExpenses: totalAmount,
+            }
+
         }, 
         addIncome: (state, { payload }) => {
             state.value.incomesTransactions.push(payload)
+
+            const totalAmount = state.value.incomesTransactions.reduce((total, transaction) => (
+                total += Number(transaction.amount)
+            ), 0)
+            state.value.totalIncomes = totalAmount 
 
         },
         deleteTransaction: (state, {payload}) => {
@@ -22,18 +37,21 @@ export const transactionsSlice = createSlice({
                const updatedTransactions =  state.value.expensesTransactions.filter((transaction) => {
                 return transaction.id !== payload.id
                })
-               console.log(payload);
+               const totalAmount = state.value.totalExpenses + payload.amount
                state.value = {
                 ...state.value,
-                expensesTransactions: [...updatedTransactions]
+                expensesTransactions: [...updatedTransactions],
+                totalExpenses: totalAmount
                }
             }else{
                 const updatedTransactions = state.value.incomesTransactions.filter((transaction)=>{
                     return transaction.id !== payload.id
                 })
+                const totalAmount = state.value.totalIncomes - payload.amount
                 state.value = {
                     ...state.value,
-                    incomesTransactions: [...updatedTransactions]
+                    incomesTransactions: [...updatedTransactions],
+                    totalIncomes: totalAmount
                 }
             }
         }

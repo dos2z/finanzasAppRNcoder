@@ -6,23 +6,25 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors';
 import MyButton from '../components/MyButton';
 import CardTransaction from '../components/CardTransaction';
+import ChartPie from '../components/ChartPie';
 
 
 
 
 const Home = () => {
-    const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactionsReducer.value)
+    const {expensesCategories, incomesCategories} = useSelector((state) => state.categoriesReducer.value)
+    const { expensesTransactions, incomesTransactions, totalExpenses, totalIncomes } = useSelector((state) => state.transactionsReducer.value)
     const { total } = useSelector((state) => state.accountsReducer.value)
     const [myTransactions, setMyTransactions] = useState(expensesTransactions)
     const [isExpenses, setIsExpenses] = useState(true)
-
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
+    const [myCategories, setMyCategories] = useState(expensesCategories)
+    const [totalTransactions, setTotalTransactios] = useState(totalExpenses)
 
-
+//ordena las trasnacciones -ReViSaR el ORDEN
     const sortTransactions = (transactions)=>{
         transactions.sort((a,b)=>a.index-b.index)
-
     }
     sortTransactions(myTransactions)
 
@@ -32,18 +34,25 @@ const handleShowTransactionList = (type)=>{
     if(type==='expenses'){
         setIsExpenses(true)
         setMyTransactions(expensesTransactions)
-        console.log(expensesTransactions);
+        setMyCategories([...expensesCategories])
+        setTotalTransactios(totalExpenses)
     }else{
         setIsExpenses(false)
         setMyTransactions(incomesTransactions)
+        setMyCategories([...incomesCategories])
+        setTotalTransactios(totalIncomes)
     }
 }
 
     useEffect(()=>{
         if(isExpenses){
             setMyTransactions([...expensesTransactions])
+            setMyCategories([...expensesCategories])
+            
         }else{
             setMyTransactions([...incomesTransactions])
+            setMyCategories([...incomesCategories])
+            
         }
     },[expensesTransactions, incomesTransactions])
    
@@ -68,9 +77,7 @@ const handleShowTransactionList = (type)=>{
 
 
             <View style={styles.graphicContainer}>
-                <View style={styles.graphicView}>
-
-                </View>
+                <ChartPie myCategories={myCategories} myTransactions={myTransactions} total={totalTransactions}/>
             </View>
 
             <View style={styles.btnContainer}>
