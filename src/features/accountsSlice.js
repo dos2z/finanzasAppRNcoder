@@ -33,6 +33,13 @@ export const accountsSlice = createSlice({
         removeAccount: (state, {payload}) => {
             const updatedAccounts = state.value.accounts.filter(account => account.id !== payload.id)
             state.value.accounts = updatedAccounts
+            const totalAmount = updatedAccounts.reduce((total, account) => (
+                total += account.amount
+            ), 0)
+            state.value.total = {
+                ...state.value.total,
+                amount: totalAmount
+            }
         },
 
         modifyAccount: (state, {payload}) => {

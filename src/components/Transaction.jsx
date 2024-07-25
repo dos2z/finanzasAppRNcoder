@@ -20,7 +20,7 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
   const [categorySelected, setCategorySelected] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [accountSelected, setAccountSelected] = useState('')
-  const [dateSelected, setDateSelected] = useState('')
+  const [dateSelected, setDateSelected] = useState(new Date())
   const [comment, setComment] = useState('')
   const [isFocus, setIsFocus] = useState(false)
 
@@ -32,10 +32,12 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
       type: transactionType,
       account: accountSelected,
       category: categorySelected,
-      date: dateSelected,
+      date: dateSelected.toLocaleDateString(),
       comment: comment,
       id: new Date().toString(),
+      index: dateSelected.getDate()+dateSelected.getMonth()+dateSelected.getFullYear()
     }
+    console.log(dateSelected);
     if (transactionType === 'expenses') {
       const updatedAccountAmount = Number(newTransaction.account.amount) - Number(newTransaction.amount)
       const updatedAccount = { ...newTransaction.account, amount: updatedAccountAmount }
@@ -47,13 +49,17 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
       dispatch(modifyAccount(updatedAccount))
       dispatch(addIncome(newTransaction))
     }
-    
+    setTransactionAmount('')
+    setAccountSelected('')
+    setCategorySelected('')
+    setComment('')
   }
 
+ 
 
 
   const handleAddTransaction = () => {
-    if(!transactionAmount || ! categorySelected || !accountSelected){
+    if(!transactionAmount || ! categorySelected || !accountSelected || !dateSelected){
       
     }else{
       addNewTransaction()
@@ -75,11 +81,11 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
 
 
           {!transactionAmount && <Text style={{color: 'red'}}>Agregar Monto</Text>}
-          <MyInputText label={'Monto $'} initialValue={transactionAmount} onChange={setTransactionAmount} keyboardType={"decimal"} />
+          <MyInputText label={'$'} initialValue={transactionAmount} onChange={setTransactionAmount} keyboardType={"decimal"} />
 
-          <Pressable onPress={() => setShowModal(!showModal)} style={{flexDirection: 'row', gap: 20, alignItems: 'center'}}>
-            <Text style={{ fontSize: 20 }}>{accountSelected.name || 'Cuenta?'}</Text>
-            {!accountSelected && <Text style={{color: 'red'}}>Agregar Cuenta</Text>}
+          <Pressable onPress={() => setShowModal(!showModal)} style={{flexDirection: 'row', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{ fontSize: 20 }}>Cuenta: {accountSelected.name}</Text>
+            {!accountSelected && <Text style={{color: 'red'}}>Seleccionar Cuenta</Text>}
           </Pressable>
 
 

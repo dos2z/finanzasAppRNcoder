@@ -1,0 +1,1 @@
+export const baseUrl = 'https://proyectorn-e7223-default-rtdb.firebaseio.com/'

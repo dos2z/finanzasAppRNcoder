@@ -5,6 +5,8 @@ import { accountsIcons } from '../global/icons';
 import MyInputText from '../components/MyInputText';
 import ColorPicker from '../components/ColorPicker';
 import IconPicker from '../components/IconPicker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 import { useDispatch } from 'react-redux';
 import { addAccount } from '../features/accountsSlice';
@@ -32,7 +34,7 @@ const AddAccount = ({ navigation }) => {
 
     const handleAddAccount = () => {
         if (!accountName || !iconId) {
-                
+                console.log('hola');
         } else {
             createNewAccount();
             navigation.goBack()
@@ -54,9 +56,13 @@ const AddAccount = ({ navigation }) => {
                 </Text>
 
                 {!accountName && <Text style={{ color: 'red', }}>Introduzca un nombre para la cuenta</Text>}
-                <MyInputText label={'Nombre'} initialValue={accountName} onChange={setAccountName} />
+                <MyInputText label={''} initialValue={accountName} onChange={setAccountName} />
 
                 <MyInputText label={'Monto Inicial  $'} initialValue={accountInitialAmount} onChange={setAccountInitialAmount} keyboardType={'decimal'} />
+            
+                <View style={{ padding: 5 }}>
+                    <MaterialCommunityIcons name={iconName} size={48} color={colorChosed} />
+                </View>
 
                 <IconPicker colorChosed={colorChosed} iconId={iconId} setIconId={setIconId} setIconName={setIconName} iconColection={accountsIcons} />
 
@@ -82,8 +88,9 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     buttonContainer: {
-        margin: 50,
+        margin: 20,
         flexDirection: 'row',
+        justifyContent: 'center',
         gap: 20,
     }
 })

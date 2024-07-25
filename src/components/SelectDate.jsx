@@ -10,7 +10,7 @@ const SelectDate = ({setDateSelected}) => {
         const currentDate = selectedDate;
         setShow(false);
         setDate(currentDate);
-        setDateSelected(currentDate.toLocaleString())
+        setDateSelected(currentDate)
     };
 
 

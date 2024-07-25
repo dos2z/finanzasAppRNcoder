@@ -1,14 +1,23 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { removeAccount } from '../features/accountsSlice';
 
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const FinancialAccounts = ({navigation}) => {
-
+const FinancialAccounts = ({ navigation }) => {
+  const {expensesTransactions, incomesTransactions} = useSelector((state)=>state.transactionsReducer.value)
   const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
+  const dispatch = useDispatch()
+
+  const deleteAccount = (account)=>{
+    //Lógica que pregunta si hay transacciones asociadas y si realmente se quiere eliminar la cuenta
+
+
+    dispatch(removeAccount(account))
+  }
 
 
 
@@ -25,17 +34,22 @@ const FinancialAccounts = ({navigation}) => {
         {myAccounts.map(account => {
           return (
             <Pressable key={account.id}
-              style={styles.card} 
-              
-              >
+              style={styles.card}
+
+            >
               <View style={[styles.iconContainer, { backgroundColor: account.color }]}>
-                <MaterialCommunityIcons name={account.icon} size={32} color={account.color !== '#000001'? 'black': 'white'} />
+                <MaterialCommunityIcons name={account.icon} size={32} color={account.color !== '#000001' ? 'black' : 'white'} />
               </View>
               <View style={{ gap: 10 }}>
                 <Text style={{ fontSize: 16, fontStyle: 'italic' }}>{account.name}</Text>
                 <Text style={{ fontSize: 16, fontWeight: 'bold' }}>$ {account.amount}</Text>
               </View>
 
+              <Pressable 
+              style={{marginHorizontal: 50}}
+              onPress={()=>{deleteAccount(account)}}>
+                <MaterialCommunityIcons name="delete-forever" size={24} color="red" />
+              </Pressable>
 
             </Pressable>
           )
@@ -48,7 +62,7 @@ const FinancialAccounts = ({navigation}) => {
       <View style={styles.buttonsContainer}>
         <MyButton title={'Transferencias'} />
 
-        <MyButton title={'Agregar Cuenta'} onPress={()=>navigation.navigate('addAccount')} />
+        <MyButton title={'Agregar Cuenta'} onPress={() => navigation.navigate('addAccount')} />
       </View>
 
     </View>
@@ -78,6 +92,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: 50,
     backgroundColor: 'white',
     borderRadius: 20,
