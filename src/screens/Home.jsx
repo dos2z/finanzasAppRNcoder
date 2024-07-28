@@ -23,10 +23,12 @@ const Home = () => {
     const [totalTransactions, setTotalTransactios] = useState(totalExpenses)
 
 //ordena las trasnacciones -ReViSaR el ORDEN
-    const sortTransactions = (transactions)=>{
-        transactions.sort((a,b)=>a.index-b.index)
+  /*   const sortTransactions = (transactions)=>{
+        const transactionsToSort = [...transactions]
+        transactionsToSort.sort((a,b)=>a.index-b.index)
+        return transactionsToSort
     }
-    sortTransactions(myTransactions)
+    sortTransactions(myTransactions) */
 
     
 
@@ -73,10 +75,10 @@ const handleShowTransactionList = (type)=>{
                 </View>
             </Pressable>
 
-
-
-
             <View style={styles.graphicContainer}>
+                {!myTransactions.length && <View style={styles.graphicView}>
+
+                </View>}
                 <ChartPie myCategories={myCategories} myTransactions={myTransactions} total={totalTransactions}/>
             </View>
 
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
         width: 250,
         height: 250,
         borderRadius: 250,
-        backgroundColor: 'grey',
+        backgroundColor: 'lightgrey',
     },
     flatList: {
         width: '90%',

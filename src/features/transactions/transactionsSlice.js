@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//ordena las trasnacciones -ReViSaR el ORDEN
+    const sortTransactions = (transactions)=>{
+        const transactionsToSort = [...transactions]
+        transactionsToSort.sort((a,b)=>a.index-b.index)
+        return transactionsToSort
+    }
+    
+
 export const transactionsSlice = createSlice({
     name: 'transactions',
     initialState: {
@@ -37,7 +45,7 @@ export const transactionsSlice = createSlice({
                const updatedTransactions =  state.value.expensesTransactions.filter((transaction) => {
                 return transaction.id !== payload.id
                })
-               const totalAmount = state.value.totalExpenses + payload.amount
+               const totalAmount = Number(state.value.totalExpenses) + Number(payload.amount)
                state.value = {
                 ...state.value,
                 expensesTransactions: [...updatedTransactions],
@@ -47,7 +55,7 @@ export const transactionsSlice = createSlice({
                 const updatedTransactions = state.value.incomesTransactions.filter((transaction)=>{
                     return transaction.id !== payload.id
                 })
-                const totalAmount = state.value.totalIncomes - payload.amount
+                const totalAmount = Number(state.value.totalIncomes) - Number(payload.amount)
                 state.value = {
                     ...state.value,
                     incomesTransactions: [...updatedTransactions],

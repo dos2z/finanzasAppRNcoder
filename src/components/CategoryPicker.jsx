@@ -1,15 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Modal, ScrollView } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useState } from 'react';
+
 
 
 
 
 const CategoryPicker = ({ categorySelected, setCategorySelected, navigation, transactionType, myCategories }) => {
-   
-   
 
-  
-   
 
     const handleSelectCategory = (cat) => {
         setCategorySelected(cat)
@@ -17,36 +15,40 @@ const CategoryPicker = ({ categorySelected, setCategorySelected, navigation, tra
 
     return (
 
-
-
         <View style={styles.container}>
-            <Text style={[styles.title, !categorySelected&&{color: 'red'}]}>Seleccionar categoría</Text>
+            <Text style={[styles.title, !categorySelected && { color: 'red' }]}>Seleccionar categoría</Text>
             <View style={styles.categoriesContainer}>
-                {myCategories.map(category => {
+                <ScrollView>
+                    <View style={styles.categoriesList}>
 
-                    return (
-                        <Pressable key={category.id}
-                            style={[styles.categoryContainer,
-                            category.id != categorySelected.id ?
-                                { backgroundColor: 'white' }
-                                : { backgroundColor: category.color }]
-                            }
-                            onPress={() => handleSelectCategory(category)}>
-                            <View style={[styles.iconContainer, { backgroundColor: category.color }]}>
-                                <MaterialCommunityIcons name={category.icon} size={48} color="white" />
+                        {myCategories.map(category => {
 
-                            </View>
-                            <Text
-                                style={category.id != categorySelected.id ? { color: 'black' } : { color: 'white', fontWeight: 'bold' }}
-                            >{category.name}</Text>
-                        </Pressable>
-                    )
-                })}
-                <Pressable style={styles.addCategoryBtn}
-                onPress={()=>navigation.navigate('addCategory', {transactionType})}>
-                    <MaterialCommunityIcons name='plus-circle' size={32} color={'tomato'} />
-                    <Text>Crear</Text>
-                </Pressable>
+                            return (
+                                <Pressable key={category.id}
+                                    style={[styles.categoryContainer,
+                                    category.id != categorySelected.id ?
+                                        { backgroundColor: 'white' }
+                                        : { backgroundColor: category.color }]
+                                    }
+                                    onPress={() => handleSelectCategory(category)}>
+                                    <View style={[styles.iconContainer, { backgroundColor: category.color }]}>
+                                        <MaterialCommunityIcons name={category.icon} size={48} color="white" />
+
+                                    </View>
+                                    <Text
+                                        style={category.id != categorySelected.id ? { color: 'black' } : { color: 'white', fontWeight: 'bold' }}
+                                    >{category.name}</Text>
+                                </Pressable>
+                            )
+                        })}
+                        <Pressable style={styles.addCategoryBtn}
+                            onPress={() => navigation.navigate('addCategory', { transactionType })}>
+                            <MaterialCommunityIcons name='plus-circle' size={32} color={'tomato'} />
+                            <Text>Crear</Text>
+                        </Pressable> 
+                    </View>
+                </ScrollView>
+
             </View>
 
         </View>
@@ -71,8 +73,17 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexWrap: 'wrap',
         gap: 20,
-        width: 250,
+        width: 300,
         height: 250,
+        overflow: 'hidden',
+    },
+    categoriesList:{
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        gap: 20,
+        width: 300,
+        overflow: 'hidden',
     },
     categoryContainer: {
         padding: 5,
@@ -86,8 +97,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    addCategoryBtn:{
+    addCategoryBtn: {
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
 })

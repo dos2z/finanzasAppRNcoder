@@ -1,6 +1,7 @@
 import { StyleSheet, Text, Pressable} from 'react-native'
 import React from 'react'
 import { colors } from '../global/colors'
+import { baseUrl } from '../database/realTimeDataBase'
 
 const MyButton = ({ title, onPress, type }) => {
 
@@ -10,15 +11,23 @@ const MyButton = ({ title, onPress, type }) => {
     const accept = {
         borderColor: colors.accept,
     }
+    const disabled = {
+        borderWidth: 0,
+        backgroundColor: 'lightgrey',
+        opacity: 0.6
+    }
     const regular = {
-        borderColor: 'black'
+        borderWidth: 0,
     }
     let borderStyle
     if (type === 'accept'){
         borderStyle = accept
     }else if(type === 'cancel'){
         borderStyle = cancel
-    }else{
+    }else if(type === 'disabled'){
+        borderStyle = disabled
+    }
+    else{
         borderStyle = regular
     }
 
@@ -36,7 +45,7 @@ const styles = StyleSheet.create({
     button: {
         borderWidth: 1,
         borderRadius: 5,
-        padding: 5,
+        padding: 10,
         backgroundColor: colors.BGbutton,
     },
     accept: {

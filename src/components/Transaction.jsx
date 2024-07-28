@@ -8,8 +8,8 @@ import { colors } from '../global/colors'
 import SelectDate from './SelectDate'
 import MyButton from './MyButton'
 import { useDispatch } from 'react-redux'
-import { addExpense, addIncome } from '../features/transactionsSlice'
-import { modifyAccount } from '../features/accountsSlice'
+import { addExpense, addIncome } from '../features/transactions/transactionsSlice'
+import { modifyAccount } from '../features/financialAccounts/accountsSlice'
 
 
 
@@ -79,7 +79,6 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
       <ScrollView>
         <View style={styles.container}>
 
-
           {!transactionAmount && <Text style={{color: 'red'}}>Agregar Monto</Text>}
           <MyInputText label={'$'} initialValue={transactionAmount} onChange={setTransactionAmount} keyboardType={"decimal"} />
 
@@ -87,16 +86,12 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
             <Text style={{ fontSize: 20 }}>Cuenta: {accountSelected.name}</Text>
             {!accountSelected && <Text style={{color: 'red'}}>Seleccionar Cuenta</Text>}
           </Pressable>
-
-
-          
+ 
           <CategoryPicker categorySelected={categorySelected}
             setCategorySelected={setCategorySelected}
             navigation={navigation}
             transactionType={transactionType}
             myCategories={myCategories} />
-
-
 
           <SelectDate setDateSelected={setDateSelected} />
 
@@ -109,15 +104,9 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
 
           </View>
 
-
-
-          <Text>Foto ???</Text>
-
           <View style={styles.buttonContainer}>
             <MyButton title={'Confirmar'} onPress={handleAddTransaction} type={'accept'} />
           </View>
-
-
 
           <Modal
             visible={showModal}

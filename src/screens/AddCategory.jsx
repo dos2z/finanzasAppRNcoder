@@ -6,7 +6,7 @@ import ColorPicker from '../components/ColorPicker';
 import IconPicker from '../components/IconPicker';
 import { categoryIcons } from '../global/icons';
 import { useDispatch } from 'react-redux';
-import { addExpensesCategory, addIncomeCategory } from '../features/categoriesSlice';
+import { addExpensesCategory, addIncomeCategory } from '../features/categories/categoriesSlice';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -100,7 +100,7 @@ export default AddCategory
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 10,
+        
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,

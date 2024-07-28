@@ -8,9 +8,8 @@ import IconPicker from '../components/IconPicker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addAccount } from '../features/financialAccounts/accountsSlice';
-import { usePostAccountMutation } from '../services/shopServices';
 
 
 const AddAccount = ({ navigation }) => {
@@ -19,8 +18,6 @@ const AddAccount = ({ navigation }) => {
     const [iconId, setIconId] = useState('')
     const [iconName, setIconName] = useState('')
     const [colorChosed, setColorChosed] = useState('grey')
-    const {localId} = useSelector((state) => state.authReducer.value)
-    const [triggerPostAccount, result] = usePostAccountMutation()
     const dispatch = useDispatch()
 
     const createNewAccount = () => {
@@ -32,7 +29,6 @@ const AddAccount = ({ navigation }) => {
             id: new Date().toString()
         }
         dispatch(addAccount(newAccount))
-        localId && triggerPostAccount({newAccount, localId})
     }
 
 
@@ -40,7 +36,6 @@ const AddAccount = ({ navigation }) => {
         if (!accountName || !iconId) {
                 console.log('hola');
         } else {
-            
             createNewAccount();
             navigation.goBack()
         }

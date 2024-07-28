@@ -31,10 +31,10 @@ const Incomes = ({ navigation }) => {
         <View style={styles.headerBtnContainer}>
           <Pressable style={styles.headerButton}
             onPress={() => navigation.navigate('expenses')}>
-            <Text style={styles.buttonText}>Gastos</Text>
+            <Text style={[styles.buttonText, {color: 'grey'}]}>Gastos</Text>
           </Pressable>
           <View style={[styles.headerButton, { backgroundColor: 'white' }]}>
-            <Text style={styles.buttonText}>Ingresos</Text>
+            <Text style={[styles.buttonText, {fontWeight: 'bold'}]}>Ingresos</Text>
           </View>
         </View>
         <View style={styles.componentContainer}>

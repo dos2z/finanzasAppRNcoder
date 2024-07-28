@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { removeAccount } from '../features/accountsSlice';
+import { removeAccount } from '../features/financialAccounts/accountsSlice';
 
 
 import { useSelector, useDispatch } from 'react-redux';
+import { colors } from '../global/colors';
 
 
 const FinancialAccounts = ({ navigation }) => {
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 50,
+    backgroundColor: colors.BGColor,
   },
   title: {
     fontSize: 32,

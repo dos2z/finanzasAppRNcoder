@@ -18,10 +18,10 @@ const Expenses = ({ navigation }) => {
       <ScrollView>
         <View style={styles.headerBtnContainer}>
           <View style={[styles.headerButton, { backgroundColor: 'white' }]}>
-            <Text style={styles.buttonText}>Gastos</Text>
+            <Text style={[styles.buttonText, {fontWeight: 'bold'}]}>Gastos</Text>
           </View>
           <Pressable style={styles.headerButton} onPress={() => navigation.navigate('incomes')}>
-            <Text style={styles.buttonText}>Ingresos</Text>
+            <Text style={[styles.buttonText, {color: 'grey'}]}>Ingresos</Text>
           </Pressable>
         </View>
 
@@ -43,7 +43,7 @@ export default Expenses
 
 const styles = StyleSheet.create({
   container:{
-    backgroundColor: colors.BGColor
+    backgroundColor: colors.BGColor,
   },
   componentContainer: {
     padding: 24,

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Pressable, Alert, Modal } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { deleteTransaction } from '../features/transactionsSlice';
+import { deleteTransaction } from '../features/transactions/transactionsSlice';
 import { useDispatch } from 'react-redux';
-import { modifyAccount } from '../features/accountsSlice';
+import { modifyAccount } from '../features/financialAccounts/accountsSlice';
 
 import { useSelector } from 'react-redux';
 import { useState } from 'react';

@@ -8,6 +8,7 @@ import Profile from '../screens/Profile'
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors'
 import FinancialAccountsStackNavigation from './FinancialAccountsStackNavigation'
+import ProfileStackNavigation from './ProfileStackNavigation'
 
 
 const Tab = createBottomTabNavigator()
@@ -59,7 +60,7 @@ const BottomTabNavigation = () => {
                         )
                     }
                 }} />
-            <Tab.Screen name='Usuario' component={Profile}
+            <Tab.Screen name='Usuario' component={ProfileStackNavigation}
                 options={{
                     tabBarIcon: ({ color, focused }) => {
                         return (
