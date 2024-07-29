@@ -1,6 +1,4 @@
 import { StyleSheet, Text, View, Pressable, Keyboard,  ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
-import { useState } from 'react'
 import { colors } from '../global/colors'
 import Transaction from '../components/Transaction'
 import { useSelector } from 'react-redux'
@@ -9,15 +7,7 @@ import { useSelector } from 'react-redux'
 const Incomes = ({ navigation }) => {
   
   const {incomesCategories: myCategories} = useSelector((state)=>state.categories.value)
-  const [comment, setComment] = useState('')
-
-  const [isFocus, setIsFocus] = useState(false)
-
-
-
-  useEffect(() => {
-    Keyboard.addListener('keyboardDidHide', () => setIsFocus(false))
-  }, [comment])
+  
 
   return (
 

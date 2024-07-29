@@ -1,35 +1,70 @@
 import { Modal, Pressable, FlatList, StyleSheet, Text, View, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import SelectAccount from '../components/SelectAccount'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors';
 import MyButton from '../components/MyButton';
 import CardTransaction from '../components/CardTransaction';
 import ChartPie from '../components/ChartPie';
-import { useGetAccountsQuery } from '../services/shopServices';
+import { useGetAccountsQuery, useGetCategoriesQuery, useGetTransactionsQuery, usePostAccountsMutation, usePostCategoryMutation, usePostTransactionMutation } from '../services/shopServices';
 import { getAccountsFromDB } from '../features/financialAccounts/accountsSlice';
-
-
+import { addExpensesCategory, addIncomesCategory } from '../features/categories/categoriesSlice';
+import { addExpense, addIncome } from '../features/transactions/transactionsSlice';
 
 
 const Home = () => {
     const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
     const { expensesTransactions, incomesTransactions, totalExpenses, totalIncomes } = useSelector((state) => state.transactions.value)
-    const { total } = useSelector((state) => state.accounts.value)
+    const { accounts, total } = useSelector((state) => state.accounts.value)
+
+
     const [myTransactions, setMyTransactions] = useState(expensesTransactions)
     const [isExpenses, setIsExpenses] = useState(true)
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
     const [myCategories, setMyCategories] = useState(expensesCategories)
-    const [totalTransactions, setTotalTransactios] = useState(totalExpenses)
+    const [totalTransactions, setTotalTransactions] = useState(totalExpenses)
     const { localId } = useSelector((state) => state.auth.value)
-    const {data: dataAccounts} = useGetAccountsQuery({localId})
-    console.log(dataAccounts);
-    getAccountsFromDB(dataAccounts)
+    const { data: dataAccounts } = useGetAccountsQuery({ localId })
+    const { data: dataCategories } = useGetCategoriesQuery(localId)
+    const { data: dataTransactions } = useGetTransactionsQuery(localId)
 
 
+    const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
+    const [triggerPostCategories, resultPostCategories] = usePostCategoryMutation()
+    const [triggerPostTransactions, resultPostTransactions] = usePostTransactionMutation()
+    const dispatch = useDispatch()
 
+
+    dispatch(getAccountsFromDB(dataAccounts))
+
+
+    if (dataCategories) {
+        dataCategories.forEach((category) => {
+            switch (category.type) {
+                case 'expense':
+                    dispatch(addExpensesCategory(category));
+                case 'income':
+                    dispatch(addIncomesCategory(category))
+                default:
+                    break
+            }
+        })
+    }
+    if (dataTransactions) {
+        dataTransactions.forEach((transaction) => {
+            switch (transaction.type) {
+                case 'expense':
+                    dispatch(addExpense(transaction));
+                case 'income':
+                    dispatch(addIncome(transaction));
+                default:
+                    break
+
+            }
+        })
+    }
 
 
     const handleShowTransactionList = (type) => {
@@ -37,16 +72,17 @@ const Home = () => {
             setIsExpenses(true)
             setMyTransactions(expensesTransactions)
             setMyCategories([...expensesCategories])
-            setTotalTransactios(totalExpenses)
+            setTotalTransactions(totalExpenses)
         } else {
             setIsExpenses(false)
             setMyTransactions(incomesTransactions)
             setMyCategories([...incomesCategories])
-            setTotalTransactios(totalIncomes)
+            setTotalTransactions(totalIncomes)
         }
     }
 
     useEffect(() => {
+
         if (isExpenses) {
             setMyTransactions([...expensesTransactions])
             setMyCategories([...expensesCategories])
@@ -56,7 +92,20 @@ const Home = () => {
             setMyCategories([...incomesCategories])
 
         }
-    }, [expensesTransactions, incomesTransactions])
+
+        const allCategories = [...expensesCategories, ...incomesCategories]
+        const allTransactions = [...expensesTransactions, ...incomesTransactions]
+        if (accounts && accounts.length > 0) {
+            triggerPostAccounts({ accounts, localId })
+        }
+        if (allCategories && allCategories.length > 0) {
+            triggerPostCategories({ categories: allCategories, localId })
+        }
+        if (allTransactions && allTransactions.length > 0) {
+            triggerPostTransactions({ transactions: allTransactions, localId })
+        }
+
+    }, [accounts])
 
 
     return (

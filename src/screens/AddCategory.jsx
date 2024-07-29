@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View, Keyboard, ScrollView } from 'react-native'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import MyButton from '../components/MyButton'
 import MyInputText from '../components/MyInputText';
 import ColorPicker from '../components/ColorPicker';

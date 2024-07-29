@@ -18,7 +18,17 @@ export const accountsSlice = createSlice({
         }
     },
     reducers: {
-        getAccountsFromDB: (state, {payload}) =>{
+        getAccountsFromDB: (state, { payload }) => {
+            const accounts = state.value.accounts
+            if (payload && !state.value.total.amount) {
+                const totalAmount = payload.reduce((total, account) => (
+                    total += account.amount
+                ), 0)
+                state.value.total = {
+                    ...state.value.total,
+                    amount: totalAmount
+                }
+            }
             state.value.accounts = payload
         },
 
@@ -34,7 +44,7 @@ export const accountsSlice = createSlice({
             }
         },
 
-        removeAccount: (state, {payload}) => {
+        removeAccount: (state, { payload }) => {
             const updatedAccounts = state.value.accounts.filter(account => account.id !== payload.id)
             state.value.accounts = updatedAccounts
             const totalAmount = updatedAccounts.reduce((total, account) => (
@@ -46,7 +56,7 @@ export const accountsSlice = createSlice({
             }
         },
 
-        modifyAccount: (state, {payload}) => {
+        modifyAccount: (state, { payload }) => {
             const updatedAccounts = state.value.accounts.filter(account => account.id !== payload.id)
             updatedAccounts.push(payload)
             state.value.accounts = updatedAccounts

@@ -8,9 +8,9 @@ export const shopApi = createApi({
     }),
     tagTypes: ['accountsGet', 'categoriesGet', 'transactionsGet', 'profileImageGet'],
     endpoints: (builder) => ({
-        
-         postAccounts: builder.mutation({
-            query: ( {accounts, localId}) => ({
+
+        postAccounts: builder.mutation({
+            query: ({ accounts, localId }) => ({
                 url: `accounts/${localId}.json`,
                 method: 'PUT',
                 body: accounts,
@@ -19,22 +19,22 @@ export const shopApi = createApi({
         }),
 
         getAccounts: builder.query({
-            query: ({localId}) => {
-                return`accounts/${localId}.json`},
+            query: ({ localId }) => {
+                return `accounts/${localId}.json`
+            },
             transformResponse: (res) => {
                 if (res) {
-  
-                  const transformedResponse = Object.values(res);
-                  return transformedResponse;
+                    const transformedResponse = Object.values(res);
+                    return transformedResponse;
                 }
                 return [];
-              },
-              providesTags: ['accountsGet']
-              
+            },
+            providesTags: ['accountsGet']
+
         }),
 
         postCategory: builder.mutation({
-            query: ({categories, localId}) => ({
+            query: ({ categories, localId }) => ({
                 url: `categories/${localId}.json`,
                 method: 'PUT',
                 body: categories,
@@ -47,20 +47,20 @@ export const shopApi = createApi({
             query: (localId) => `categories${localId}/json`,
             transformResponse: (res) => {
                 if (res) {
-                  const transformedResponse = Object.values(res);
-                  return transformedResponse;
+                    const transformedResponse = Object.values(res);
+                    return transformedResponse;
                 }
                 return [];
-              },
-              providesTags: ['categoriesGet']
+            },
+            providesTags: ['categoriesGet']
 
         }),
 
         postTransaction: builder.mutation({
-            query: ({ ...transaction }, localId) => ({
+            query: ({transactions, localId}) => ({
                 url: `transactions/${localId}.json`,
                 method: 'PUT',
-                body: 'transaction',
+                body: transactions,
             }),
             invalidatesTags: ['transactionsGet']
         }),
@@ -69,11 +69,11 @@ export const shopApi = createApi({
             query: (localId) => `transactions/${localId}.json`,
             transformResponse: (res) => {
                 if (res) {
-                  const transformedResponse = Object.values(res);
-                  return transformedResponse;
+                    const transformedResponse = Object.values(res);
+                    return transformedResponse;
                 }
                 return [];
-              },
+            },
             providesTags: ['transactionsGet']
         }),
 
@@ -84,7 +84,7 @@ export const shopApi = createApi({
 
         }),
         postProfileImage: builder.mutation({
-            query: ({image, localId}) => ({
+            query: ({ image, localId }) => ({
                 url: `profileImages/${localId}.json`,
                 method: 'PUT',
                 body: {
@@ -96,7 +96,7 @@ export const shopApi = createApi({
     }),
 })
 
-export const { 
+export const {
     usePostAccountsMutation,
     usePostCategoryMutation,
     usePostTransactionMutation,

@@ -5,16 +5,17 @@ import { removeAccount } from '../features/financialAccounts/accountsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { colors } from '../global/colors';
 import { useEffect } from 'react';
-import { usePostAccountsMutation, usePostCategoryMutation } from '../services/shopServices';
+import { usePostAccountsMutation, usePostCategoryMutation, usePostTransactionMutation } from '../services/shopServices';
 
 
 const FinancialAccounts = ({ navigation }) => {
   const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
   const { accounts: myAccounts, total } = useSelector((state) => state.accounts.value)
+  const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
   const { localId } = useSelector((state) => state.auth.value)
   const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
   const [triggerPostCategories, resultPostCategories] = usePostCategoryMutation()
-  
+  const [triggerPostTransactions, resultPostTransactions] = usePostTransactionMutation()
   const dispatch = useDispatch()
 
   const deleteAccount = (account) => {
@@ -26,10 +27,16 @@ const FinancialAccounts = ({ navigation }) => {
 
 
   useEffect(() => {
+    const allCategories = [...expensesCategories, ...incomesCategories]
+    const allTransactions = [...expensesTransactions, ...incomesTransactions]
     if (myAccounts.length > 0) {
-
       triggerPostAccounts({ accounts: myAccounts, localId })
-
+    }
+    if (allCategories && allCategories.length > 0) {
+      triggerPostCategories({ categories: allCategories, localId })
+    }
+    if (allTransactions && allTransactions.length > 0) {
+      triggerPostTransactions({ transactions: allTransactions, localId })
     }
 
   }, [myAccounts])

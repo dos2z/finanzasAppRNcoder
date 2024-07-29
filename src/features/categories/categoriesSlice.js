@@ -12,10 +12,16 @@ export const categoriesSlice = createSlice({
         }
     },
     reducers: {
+        getExpensesCategoriesFromBD: (state, {payload}) =>{
+            state.value.expensesCategories = payload
+        },
+        getIncomesCategoriesFromBD: (state, {payload}) =>{
+            state.value.incomesCategories = payload
+        },
         addExpensesCategory: (state, { payload }) => {
             state.value.expensesCategories.push(payload)
         },
-        addIncomeCategory: (state, { payload }) => {
+        addIncomesCategory: (state, { payload }) => {
             state.value.incomesCategories.push(payload)
         },
        
@@ -23,7 +29,7 @@ export const categoriesSlice = createSlice({
     }
 })
 
-export const {addExpensesCategory, addIncomeCategory} = categoriesSlice.actions
+export const {addExpensesCategory, addIncomeCategory, getExpensesCategoriesFromBD, getIncomesCategoriesFromBD} = categoriesSlice.actions
 
 
 export default categoriesSlice.reducer
