@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View, Keyboard, ScrollView } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MyButton from '../components/MyButton'
 import { accountsIcons } from '../global/icons';
 import MyInputText from '../components/MyInputText';
@@ -19,20 +19,23 @@ const AddAccount = ({ navigation }) => {
     const [iconId, setIconId] = useState('')
     const [iconName, setIconName] = useState('')
     const [colorChosed, setColorChosed] = useState('grey')
-    const {localId} = useSelector((state) => state.authReducer.value)
-    const [triggerPostAccount, result] = usePostAccountMutation()
+    const {localId} = useSelector((state) => state.auth.value)
+    const { accounts } = useSelector((state) => state.accounts.value)
     const dispatch = useDispatch()
+   
 
     const createNewAccount = () => {
         const newAccount = {
+            type: 'account',
             name: accountName,
             amount: Number(accountInitialAmount),
             icon: iconName,
             color: colorChosed,
             id: new Date().toString()
         }
+        
         dispatch(addAccount(newAccount))
-        localId && triggerPostAccount({newAccount, localId})
+        
     }
 
 

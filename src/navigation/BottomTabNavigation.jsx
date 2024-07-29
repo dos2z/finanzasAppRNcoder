@@ -1,10 +1,8 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../screens/Home'
-import FinancialAccounts from '../screens/FinancialAccounts'
 import NewTransaction from '../screens/NewTransaction'
 import ExchangeRates from '../screens/ExchangeRates'
-import Profile from '../screens/Profile'
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors'
 import FinancialAccountsStackNavigation from './FinancialAccountsStackNavigation'
@@ -16,6 +14,7 @@ const Tab = createBottomTabNavigator()
 const BottomTabNavigation = () => {
     return (
         <Tab.Navigator
+        initialRouteName='home'
             screenOptions={{
                 
                 tabBarShowLabel: false,

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const SelectAccount = ({ accountSelected, setAccountSelected, exit, show, showTotal = false }) => {
 
-    const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
+    const { accounts: myAccounts, total } = useSelector((state) => state.accounts.value)
 
 
 

@@ -7,57 +7,57 @@ import { colors } from '../global/colors';
 import MyButton from '../components/MyButton';
 import CardTransaction from '../components/CardTransaction';
 import ChartPie from '../components/ChartPie';
+import { useGetAccountsQuery } from '../services/shopServices';
+import { getAccountsFromDB } from '../features/financialAccounts/accountsSlice';
 
 
 
 
 const Home = () => {
-    const {expensesCategories, incomesCategories} = useSelector((state) => state.categoriesReducer.value)
-    const { expensesTransactions, incomesTransactions, totalExpenses, totalIncomes } = useSelector((state) => state.transactionsReducer.value)
-    const { total } = useSelector((state) => state.accountsReducer.value)
+    const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
+    const { expensesTransactions, incomesTransactions, totalExpenses, totalIncomes } = useSelector((state) => state.transactions.value)
+    const { total } = useSelector((state) => state.accounts.value)
     const [myTransactions, setMyTransactions] = useState(expensesTransactions)
     const [isExpenses, setIsExpenses] = useState(true)
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
     const [myCategories, setMyCategories] = useState(expensesCategories)
     const [totalTransactions, setTotalTransactios] = useState(totalExpenses)
+    const { localId } = useSelector((state) => state.auth.value)
+    const {data: dataAccounts} = useGetAccountsQuery({localId})
+    console.log(dataAccounts);
+    getAccountsFromDB(dataAccounts)
 
-//ordena las trasnacciones -ReViSaR el ORDEN
-  /*   const sortTransactions = (transactions)=>{
-        const transactionsToSort = [...transactions]
-        transactionsToSort.sort((a,b)=>a.index-b.index)
-        return transactionsToSort
+
+
+
+
+    const handleShowTransactionList = (type) => {
+        if (type === 'expenses') {
+            setIsExpenses(true)
+            setMyTransactions(expensesTransactions)
+            setMyCategories([...expensesCategories])
+            setTotalTransactios(totalExpenses)
+        } else {
+            setIsExpenses(false)
+            setMyTransactions(incomesTransactions)
+            setMyCategories([...incomesCategories])
+            setTotalTransactios(totalIncomes)
+        }
     }
-    sortTransactions(myTransactions) */
 
-    
-
-const handleShowTransactionList = (type)=>{
-    if(type==='expenses'){
-        setIsExpenses(true)
-        setMyTransactions(expensesTransactions)
-        setMyCategories([...expensesCategories])
-        setTotalTransactios(totalExpenses)
-    }else{
-        setIsExpenses(false)
-        setMyTransactions(incomesTransactions)
-        setMyCategories([...incomesCategories])
-        setTotalTransactios(totalIncomes)
-    }
-}
-
-    useEffect(()=>{
-        if(isExpenses){
+    useEffect(() => {
+        if (isExpenses) {
             setMyTransactions([...expensesTransactions])
             setMyCategories([...expensesCategories])
-            
-        }else{
+
+        } else {
             setMyTransactions([...incomesTransactions])
             setMyCategories([...incomesCategories])
-            
+
         }
-    },[expensesTransactions, incomesTransactions])
-   
+    }, [expensesTransactions, incomesTransactions])
+
 
     return (
 
@@ -79,12 +79,12 @@ const handleShowTransactionList = (type)=>{
                 {!myTransactions.length && <View style={styles.graphicView}>
 
                 </View>}
-                <ChartPie myCategories={myCategories} myTransactions={myTransactions} total={totalTransactions}/>
+                <ChartPie myCategories={myCategories} myTransactions={myTransactions} total={totalTransactions} />
             </View>
 
             <View style={styles.btnContainer}>
-                <MyButton title={'Gastos'} onPress={() => handleShowTransactionList('expenses')} type={isExpenses&&'accept'}/>
-                <MyButton title={'Ingresos'} onPress={() => handleShowTransactionList('incomes')} type={!isExpenses&&'accept'} />
+                <MyButton title={'Gastos'} onPress={() => handleShowTransactionList('expenses')} type={isExpenses && 'accept'} />
+                <MyButton title={'Ingresos'} onPress={() => handleShowTransactionList('incomes')} type={!isExpenses && 'accept'} />
             </View>
 
             <FlatList

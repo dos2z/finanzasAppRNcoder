@@ -5,15 +5,10 @@ import { useDispatch } from 'react-redux';
 import { modifyAccount } from '../features/financialAccounts/accountsSlice';
 
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 const CardTransaction = ({ item }) => {
-    const { accounts } = useSelector((state) => state.accountsReducer.value)
+    const { accounts } = useSelector((state) => state.accounts.value)
     const dispatch = useDispatch()
-    const [isOkPressed, setIsOkPressed] = useState(false)
-    
-
-
 
     handleUpdatedAccount = (transaction, accountToModify) => {
         let modifier
@@ -23,26 +18,15 @@ const CardTransaction = ({ item }) => {
         dispatch(modifyAccount(updatedAccount))
     }
 
-
-    
-
-
     const handleDelete = (transaction) => {
-        
-        
-            const accountToModify = accounts.filter((account) => account.id = item.account.id)[0]
-            handleUpdatedAccount(transaction, accountToModify)
-            dispatch(deleteTransaction(transaction))
-        
-
+        const accountToModify = accounts.filter((account) => account.id = item.account.id)[0]
+        handleUpdatedAccount(transaction, accountToModify)
+        dispatch(deleteTransaction(transaction))
     }
 
 
     return (
-        <Pressable
-            style={styles.card}
-
-        >
+        <Pressable style={styles.card}>
             <View style={[styles.iconContainer, { backgroundColor: item.category.color }]}>
                 <MaterialCommunityIcons name={item.category.icon} size={32} color={item.category.color !== '#000001' ? 'black' : 'white'} />
             </View>
@@ -56,7 +40,6 @@ const CardTransaction = ({ item }) => {
             <Pressable style={{ padding: 20 }} onPress={() => handleDelete(item)}>
                 <MaterialCommunityIcons name="delete-forever" size={24} color="red" />
             </Pressable>
-
 
         </Pressable>
     )

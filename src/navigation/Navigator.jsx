@@ -6,7 +6,7 @@ import AuthStackNavigation from './AuthStackNavigation'
 import { useSelector } from 'react-redux'
 
 const Navigator = () => {
-  const { user } = useSelector((state) => state.authReducer.value)
+  const { user } = useSelector((state) => state.auth.value)
 
   return (
     <NavigationContainer>

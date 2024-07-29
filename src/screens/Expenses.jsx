@@ -9,7 +9,7 @@ import { colors } from '../global/colors'
 
 const Expenses = ({ navigation }) => {
 
-  const {expensesCategories: myCategories } = useSelector((state)=>state.categoriesReducer.value)
+  const {expensesCategories: myCategories } = useSelector((state)=>state.categories.value)
 
 
   return (

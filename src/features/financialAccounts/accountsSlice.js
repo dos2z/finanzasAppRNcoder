@@ -13,11 +13,15 @@ export const accountsSlice = createSlice({
                 amount: null,
                 icon: 'account-cash',
                 color: 'gold',
-                id: `total${this.icon}${this.color}`
+                id: `total-account-cash-gold`
             }
         }
     },
     reducers: {
+        getAccountsFromDB: (state, {payload}) =>{
+            state.value.accounts = payload
+        },
+
         addAccount: (state, { payload }) => {
             state.value.accounts.push(payload)
 
@@ -59,7 +63,7 @@ export const accountsSlice = createSlice({
     }
 })
 
-export const { addAccount, removeAccount, modifyAccount } = accountsSlice.actions
+export const { addAccount, removeAccount, modifyAccount, getAccountsFromDB } = accountsSlice.actions
 
 
 export default accountsSlice.reducer

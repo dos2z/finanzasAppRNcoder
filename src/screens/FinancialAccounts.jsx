@@ -2,23 +2,37 @@ import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import MyButton from '../components/MyButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { removeAccount } from '../features/financialAccounts/accountsSlice';
-
-
 import { useSelector, useDispatch } from 'react-redux';
 import { colors } from '../global/colors';
+import { useEffect } from 'react';
+import { usePostAccountsMutation, usePostCategoryMutation } from '../services/shopServices';
 
 
 const FinancialAccounts = ({ navigation }) => {
-  const {expensesTransactions, incomesTransactions} = useSelector((state)=>state.transactionsReducer.value)
-  const { accounts: myAccounts, total } = useSelector((state) => state.accountsReducer.value)
+  const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
+  const { accounts: myAccounts, total } = useSelector((state) => state.accounts.value)
+  const { localId } = useSelector((state) => state.auth.value)
+  const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
+  const [triggerPostCategories, resultPostCategories] = usePostCategoryMutation()
+  
   const dispatch = useDispatch()
 
-  const deleteAccount = (account)=>{
+  const deleteAccount = (account) => {
     //Lógica que pregunta si hay transacciones asociadas y si realmente se quiere eliminar la cuenta
 
 
     dispatch(removeAccount(account))
   }
+
+
+  useEffect(() => {
+    if (myAccounts.length > 0) {
+
+      triggerPostAccounts({ accounts: myAccounts, localId })
+
+    }
+
+  }, [myAccounts])
 
 
 
@@ -46,9 +60,9 @@ const FinancialAccounts = ({ navigation }) => {
                 <Text style={{ fontSize: 16, fontWeight: 'bold' }}>$ {account.amount}</Text>
               </View>
 
-              <Pressable 
-              style={{marginHorizontal: 50}}
-              onPress={()=>{deleteAccount(account)}}>
+              <Pressable
+                style={{ marginHorizontal: 50 }}
+                onPress={() => { deleteAccount(account) }}>
                 <MaterialCommunityIcons name="delete-forever" size={24} color="red" />
               </Pressable>
 

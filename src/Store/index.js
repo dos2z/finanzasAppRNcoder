@@ -9,10 +9,10 @@ import authReducer from "../features/user/userSlice"
 
 const store = configureStore({
     reducer: {
-        accountsReducer,
-        categoriesReducer,
-        transactionsReducer,
-        authReducer,
+        accounts: accountsReducer,
+        categories: categoriesReducer,
+        transactions: transactionsReducer,
+        auth: authReducer,
 
         [shopApi.reducerPath]: shopApi.reducer,
         [authApi.reducerPath]: authApi.reducer,

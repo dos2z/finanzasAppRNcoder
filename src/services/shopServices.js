@@ -9,79 +9,74 @@ export const shopApi = createApi({
     tagTypes: ['accountsGet', 'categoriesGet', 'transactionsGet', 'profileImageGet'],
     endpoints: (builder) => ({
         
-        //----------------------------------------
-
-        /*  getAccounts: builder.query({
-             query: (localId)=> `accounts.json?orderBy="localId"equalTo=${localId}`
-         }), */
-
-        getAccounts: builder.query({
-            query: (localId) => `accounts/${localId}.json`
-
-        }),
-
-        /* getCategories: builder.query({
-            query: (localId) => `categories.json?orderBy="localId"equalTo=${localId}`
-        }), */
-
-        getCategories: builder.query({
-            query: (localId) => `categories${localId}/json`
-        }),
-
-        /*  getTransactions: builder.query({
-             query: (localId) => `transactions.json?orderBy="localId"equalTo=${localId}`
-         }), */
-        getTransactions: builder.query({
-            query: (localId) => `transactions/${localId}.json`
-        }),
-
-
-        /* postAccount: builder.mutation({
-            query: ({...account}) =>({
-                url: 'accounts.json',
-                method: 'POST',
-                body: 'account',
-            })
-        }), */
-        postAccount: builder.mutation({
-            query: ( {account, localId}) => ({
+         postAccounts: builder.mutation({
+            query: ( {accounts, localId}) => ({
                 url: `accounts/${localId}.json`,
                 method: 'PUT',
-                body: 'account',
-            })
+                body: accounts,
+            }),
+            invalidatesTags: ['accountsGet']
         }),
 
-        /* postTransaction: builder.mutation({
-            query: ({...transaction}) =>({
-                url: 'transactions',
-                method: 'POST',
-                body: 'transaction',
-            })
-        }), */
+        getAccounts: builder.query({
+            query: ({localId}) => {
+                return`accounts/${localId}.json`},
+            transformResponse: (res) => {
+                if (res) {
+  
+                  const transformedResponse = Object.values(res);
+                  return transformedResponse;
+                }
+                return [];
+              },
+              providesTags: ['accountsGet']
+              
+        }),
+
+        postCategory: builder.mutation({
+            query: ({categories, localId}) => ({
+                url: `categories/${localId}.json`,
+                method: 'PUT',
+                body: categories,
+            }),
+            invalidatesTags: ['categoriesGet']
+        }),
+
+
+        getCategories: builder.query({
+            query: (localId) => `categories${localId}/json`,
+            transformResponse: (res) => {
+                if (res) {
+                  const transformedResponse = Object.values(res);
+                  return transformedResponse;
+                }
+                return [];
+              },
+              providesTags: ['categoriesGet']
+
+        }),
 
         postTransaction: builder.mutation({
             query: ({ ...transaction }, localId) => ({
                 url: `transactions/${localId}.json`,
                 method: 'PUT',
                 body: 'transaction',
-            })
+            }),
+            invalidatesTags: ['transactionsGet']
         }),
 
-        /* postCategory: builder.mutation({
-            query: ({ ...category }) => ({
-                url: 'categories.json',
-                method: 'POST',
-                body: 'category',
-            })
-        }), */
-
-        postCategory: builder.mutation({
-            query: ({category, localId}) => ({
-                url: `categories/${localId}.json`,
-                method: 'PUT',
-                body: 'category',
-            })
+        getTransactions: builder.query({
+            query: (localId) => `transactions/${localId}.json`,
+            transformResponse: (res) => {
+                if (res) {
+                  const transformedResponse = Object.values(res);
+                  return transformedResponse;
+                }
+                return [];
+              },
+            providesTags: ['transactionsGet']
         }),
+
 
         getProfileImage: builder.query({
             query: (localId) => `profileImages/${localId}.json`,
@@ -101,7 +96,8 @@ export const shopApi = createApi({
     }),
 })
 
-export const { usePostAccountMutation,
+export const { 
+    usePostAccountsMutation,
     usePostCategoryMutation,
     usePostTransactionMutation,
     useGetCategoriesQuery,

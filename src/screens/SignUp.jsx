@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useEffect, useState } from 'react'
 import Form from '../components/Form'
 import { useSignUpMutation } from '../services/authServices'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../features/user/userSlice'
 import { signupSchema } from '../validations/signupSchema'
+import { useGetAccountsQuery } from '../services/shopServices'
+import { getAccountsFromDB } from '../features/financialAccounts/accountsSlice'
 
 const SignUp = ({ navigation }) => {
     const [email, setEmail] = useState("")
@@ -13,25 +15,17 @@ const SignUp = ({ navigation }) => {
     const [error, setError] = useState('')
     const dispatch = useDispatch()
     const [triggerSignUp, result] = useSignUpMutation()
+    const [newLocalId, setNewLocalId] =useState('')
+    const {data : dataAccounts} = useGetAccountsQuery(newLocalId)
 
-
-    const onSubmit2 = () => {
-
-        triggerSignUp({ email, password, returnSecureToken: true })
-        setEmail('')
-        setPassword('')
-    }
 
     const onSubmit = () => {
         setError('')
-        try { console.log('entra al try');
-            console.log(email);
+        try { 
             signupSchema.validateSync({ email, password, checkPassword })
             triggerSignUp({ email, password, returnSecureToken: true })
-            console.log('paso el trigger');
+           
         } catch (error) {
-            console.log('entra al catch');
-            console.log(error);
             switch (error.path) {
                 case "email":
                     setError(error.message);
@@ -44,12 +38,16 @@ const SignUp = ({ navigation }) => {
             }
 
         }
-        console.log(error);
+     
     }
 
 
     useEffect(() => {
         if (result.isSuccess) {
+            setNewLocalId(result.data.localId)
+            getAccountsFromDB(dataAccounts)
+            console.log('localid singIn', newLocalId);
+            console.log('dataAccounts', dataAccounts);
             dispatch(setUser({
                 email: result.data.email,
                 idToken: result.data.idToken,

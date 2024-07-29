@@ -17,12 +17,6 @@ const SignIn = ({ navigation }) => {
   }
   const onSubmit = () => {
     triggerSignIn({ email, password, returnSecureToken: true })
-    console.log(result);
-    if (result.error) {
-      const errorMessage = result.error.data.error.errors[0].message;
-      const errorToRead = errorMessage.replaceAll('_', ' ')
-      setError(errorToRead)
-    }
     setEmail('')
     setPassword('')
   }
@@ -39,9 +33,13 @@ const SignIn = ({ navigation }) => {
         email: result.data.email,
         idToken: result.data.idToken,
         localId: result.data.localId,
-      }))
-      console.log(result.data.localId);
-    }
+      })) 
+    }else if (result.error) {
+      const errorMessage = result.error.data.error.errors[0].message;
+      const errorToRead = errorMessage.replaceAll('_', ' ')
+      setError(errorToRead)}
+
+
   }, [result])
 
   return (
