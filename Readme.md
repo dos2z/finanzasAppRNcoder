@@ -26,7 +26,7 @@ Gestor de Gastos es una aplicación móvil construida con React Native para la g
 (Por el momento no esta generada la APK)
 Clonar el repositorio
 
-git clone https://github.com/tu-repo/gestor-de-gastos.git
+git clone https://github.com/dos2z/finanzasAppRNcoder
 
 cd gestorgastos
 
