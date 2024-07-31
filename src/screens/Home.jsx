@@ -1,5 +1,5 @@
-import { Modal, Pressable, FlatList, StyleSheet, Text, View, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Modal, Pressable, FlatList, StyleSheet, Text, View } from 'react-native'
+import React, {useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SelectAccount from '../components/SelectAccount'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,53 +11,33 @@ import ChartPie from '../components/ChartPie';
 
 
 const Home = () => {
-    const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
-    const { expensesTransactions, incomesTransactions, totalExpenses, totalIncomes } = useSelector((state) => state.transactions.value)
+    
+    const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
     const { accounts, total } = useSelector((state) => state.accounts.value)
-    const { localId, user } = useSelector((state) => state.auth.value)
 
-    const [myTransactions, setMyTransactions] = useState(expensesTransactions)
-    const [isExpenses, setIsExpenses] = useState(true)
+    const [myTransactions, setMyTransactions] = useState('')
+    const [isExpenses, setIsExpenses] = useState('')
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
-    const [myCategories, setMyCategories] = useState(expensesCategories)
-    const [totalTransactions, setTotalTransactions] = useState(totalExpenses)
-
-
+    
 
 
     const handleShowTransactionList = (type) => {
         if (type === 'expenses') {
             setIsExpenses(true)
             setMyTransactions(expensesTransactions)
-            setMyCategories([...expensesCategories])
-            setTotalTransactions(totalExpenses)
         } else {
             setIsExpenses(false)
             setMyTransactions(incomesTransactions)
-            setMyCategories([...incomesCategories])
-            setTotalTransactions(totalIncomes)
         }
     }
-
-    useEffect(() => {
-
-        if (isExpenses) {
-            setMyTransactions([...expensesTransactions])
-            setMyCategories([...expensesCategories])
-
-        } else {
-            setMyTransactions([...incomesTransactions])
-            setMyCategories([...incomesCategories])
-        }
-
-
-    }, [accounts])
+useEffect(()=>{
+    setMyTransactions(expensesTransactions)
+    setIsExpenses(true)
+},[])
 
 
     return (
-
-
 
         <View View style={styles.container} >
 
@@ -72,10 +52,11 @@ const Home = () => {
             </Pressable>
 
             <View style={styles.graphicContainer}>
-                {!myTransactions.length && <View style={styles.graphicView}>
+                {!myTransactions.length && 
+                <View style={styles.graphicView}>
 
                 </View>}
-                <ChartPie myCategories={myCategories} myTransactions={myTransactions} total={totalTransactions} />
+                <ChartPie isExpenses={isExpenses} />
             </View>
 
             <View style={styles.btnContainer}>

@@ -33,15 +33,12 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
   const allTransactions = [...expensesTransactions, ...incomesTransactions]
   
 
-  const updateAccount = (accounts, updateAccount) => {
-    console.log('Cuentas');
-    console.log(accounts);
-    const filteredAccounts = accounts.filter(account => account.id !== updateAccount.id)
-    console.log(filteredAccounts);
-    console.log('Cuentas actualizadas');
-    const updatedAccounts = [...filteredAccounts, updateAccount]
-    triggerPostAccounts(updatedAccounts) 
+  const updateAccountsAmounts = (accounts, updateAccount) => {
+    const filteredAccounts = accounts.filter(account => account.id !== updateAccount.id)    
+    filteredAccounts.push(updateAccount)  
+    triggerPostAccounts({accounts: filteredAccounts, localId})
   }
+ 
 
 
   const dispatch = useDispatch()
@@ -64,16 +61,19 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
     if (transactionType === 'expenses') {
       const updatedAccountAmount = Number(newTransaction.account.amount) - Number(newTransaction.amount)
       const updatedAccount = { ...newTransaction.account, amount: updatedAccountAmount }
-      updateAccount(accounts, updatedAccount)
+      updateAccountsAmounts(accounts, updatedAccount)
+      
       dispatch(modifyAccount(updatedAccount))
       dispatch(addExpense(newTransaction))
     } else {
       const updatedAccountAmount = Number(newTransaction.account.amount) + Number(newTransaction.amount)
       const updatedAccount = { ...newTransaction.account, amount: updatedAccountAmount }
-      updateAccount(accounts, updatedAccount)
+      updateAccountsAmounts(accounts, updatedAccount)
+      
       dispatch(modifyAccount(updatedAccount))
       dispatch(addIncome(newTransaction))
     }
+    
     setTransactionAmount('')
     setAccountSelected('')
     setCategorySelected('')
