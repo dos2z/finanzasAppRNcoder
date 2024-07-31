@@ -6,14 +6,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors';
 import MyButton from '../components/MyButton';
 import CardTransaction from '../components/CardTransaction';
-import ChartPie from '../components/ChartPie';
+import ChartPieExpenses from '../components/ChartPieExpenses';
+import ChartPieIncomes from '../components/ChartPieIncomes'
 
 
 
 const Home = () => {
     
     const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
-    const { accounts, total } = useSelector((state) => state.accounts.value)
+    const { total } = useSelector((state) => state.accounts.value)
 
     const [myTransactions, setMyTransactions] = useState('')
     const [isExpenses, setIsExpenses] = useState('')
@@ -52,11 +53,12 @@ useEffect(()=>{
             </Pressable>
 
             <View style={styles.graphicContainer}>
-                {!myTransactions.length && 
-                <View style={styles.graphicView}>
-
-                </View>}
-                <ChartPie isExpenses={isExpenses} />
+               
+                    {isExpenses?
+                    <ChartPieExpenses isExpenses={isExpenses} />:
+                    <ChartPieIncomes />
+                    }
+                
             </View>
 
             <View style={styles.btnContainer}>
