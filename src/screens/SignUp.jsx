@@ -46,8 +46,6 @@ const SignUp = ({ navigation }) => {
         if (result.isSuccess) {
             setNewLocalId(result.data.localId)
             getAccountsFromDB(dataAccounts)
-            console.log('localid singIn', newLocalId);
-            console.log('dataAccounts', dataAccounts);
             dispatch(setUser({
                 email: result.data.email,
                 idToken: result.data.idToken,

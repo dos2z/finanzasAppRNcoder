@@ -22,7 +22,8 @@ const Tab = createBottomTabNavigator()
 
 const BottomTabNavigation = () => {
     const { localId } = useSelector((state) => state.auth.value)
-    const { expensesCategories} = useSelector((state) => state.categories.value)
+    const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
+    const { expensesTransactions, incomesTransactions} = useSelector((state) => state.transactions.value)
     const { data: dataAccounts, isLoading: isLoadingAccounts } = useGetAccountsQuery(localId)
     const { data: dataCategories, isloading: isLoadingCategories } = useGetCategoriesQuery(localId)
     const { data: dataTransactions, isloading: isLoadingTransactions } = useGetTransactionsQuery(localId)
@@ -30,33 +31,42 @@ const BottomTabNavigation = () => {
 
 
     const getAccounts = (data) => {
-        console.log(data);
         dispatch(getAccountsFromDB(data))
     }
 
 
-    const getTransactions = (data) => {
+    const getTransactions = (data, allTransactions) => {
         let transactions = data ?? []
         transactions.forEach((transaction) => {
-            if (transaction) {
+            let isThere
+            if(transaction){
+                isThere = allTransactions.some(trans => trans.id === transaction.id)
+            }
+        
+            if (transaction && !isThere) {
                 switch (transaction.type) {
                     case 'expenses':
                         dispatch(addExpense(transaction));
-
                     case 'incomes':
                         dispatch(addIncome(transaction))
                     default:
                         break
                 }
+            }else{
+                return
             }
 
         })
     }
 
-    const getCategories = (data) => {
+    const getCategories = (data, allCategories) => {
         let categories = data ?? []
         categories.forEach((category) => {
-            if (category) {
+            let isThere
+            if (category){
+                isThere = allCategories.some(cat => cat.id === category.id)
+            }
+            if (category && !isThere) {
                 switch (category.type) {
                     case 'expenses':
                         dispatch(addExpensesCategory(category));
@@ -65,6 +75,8 @@ const BottomTabNavigation = () => {
                     default:
                         break
                 }
+            }else{
+                return
             }
         })
 
@@ -75,8 +87,10 @@ const BottomTabNavigation = () => {
         if (localId) {
             if (dataAccounts, dataTransactions, dataCategories) {
                 getAccounts(dataAccounts)
-                getTransactions(dataTransactions)
-                getCategories(dataCategories)
+                const allTransactions = [...expensesTransactions, ...incomesTransactions]
+                getTransactions(dataTransactions, allTransactions)   
+                const allCategories = [...expensesCategories, ...incomesCategories]
+                getCategories(dataCategories, allCategories)
             }
         }
     }, [isLoadingAccounts, isLoadingCategories, isLoadingTransactions, dataAccounts, dataTransactions, dataCategories])

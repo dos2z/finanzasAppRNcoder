@@ -15,7 +15,6 @@ const ImageSelector = ({ navigation }) => {
   const {localId} = useSelector((state)=> state.auth.value)
 
   const verifyCameraPermission = async () => {
-    console.log('request camera');
     const { status } = await ImagePicker.requestCameraPermissionsAsync()
     if (!status) {
       return false
@@ -24,7 +23,6 @@ const ImageSelector = ({ navigation }) => {
   }
 
   const takePhoto = async () => {
-    console.log('picki');
     const isCameraOk = await verifyCameraPermission()
     if (isCameraOk) {
       let result = await ImagePicker.launchCameraAsync({
@@ -42,7 +40,6 @@ const ImageSelector = ({ navigation }) => {
   }
 
   const pickImage = async () => {
-    console.log('picki');
     const isCameraOk = await verifyCameraPermission()
     if (isCameraOk) {
       let result = await ImagePicker.launchImageLibraryAsync({

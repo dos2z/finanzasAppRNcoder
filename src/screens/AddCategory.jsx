@@ -22,8 +22,7 @@ const AddCategory = ({ navigation, route }) => {
     const { localId } = useSelector((state) => state.auth.value)
     const [triggerPostCategories] = usePostCategoryMutation()
 
-    const allCategories = [...expensesCategories, incomesCategories]
-    console.log(allCategories);
+    const allCategories = [...expensesCategories, ...incomesCategories]
     const { transactionType } = route.params
 
 
@@ -43,7 +42,6 @@ const AddCategory = ({ navigation, route }) => {
         if(!isThere){
             const updatedCategories = [...allCategories, newCategory]
             triggerPostCategories({ categories: updatedCategories, localId })
-            console.log(updatedCategories);
         }
         if (transactionType === 'expenses') {
             dispatch(addExpensesCategory(newCategory))

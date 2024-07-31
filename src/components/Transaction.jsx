@@ -34,9 +34,11 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
   
 
   const updateAccount = (accounts, updateAccount) => {
+    console.log('Cuentas');
     console.log(accounts);
     const filteredAccounts = accounts.filter(account => account.id !== updateAccount.id)
     console.log(filteredAccounts);
+    console.log('Cuentas actualizadas');
     const updatedAccounts = [...filteredAccounts, updateAccount]
     triggerPostAccounts(updatedAccounts) 
   }

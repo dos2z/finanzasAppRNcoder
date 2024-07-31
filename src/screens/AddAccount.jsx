@@ -19,13 +19,13 @@ const AddAccount = ({ navigation }) => {
     const [iconId, setIconId] = useState('')
     const [iconName, setIconName] = useState('')
     const [colorChosed, setColorChosed] = useState('grey')
-    const {localId} = useSelector((state) => state.auth.value)
+    const { localId } = useSelector((state) => state.auth.value)
     const { accounts } = useSelector((state) => state.accounts.value)
     const [triggerPostAccounts, result] = usePostAccountsMutation()
     const dispatch = useDispatch()
 
     const updatedAccounts = [...accounts]
-   
+
 
     const createNewAccount = () => {
         const newAccount = {
@@ -38,18 +38,18 @@ const AddAccount = ({ navigation }) => {
         }
 
         updatedAccounts.push(newAccount)
-        triggerPostAccounts({accounts: updatedAccounts, localId})
-        
+        triggerPostAccounts({ accounts: updatedAccounts, localId })
+
         dispatch(addAccount(newAccount))
-        
+
     }
 
 
     const handleAddAccount = () => {
         if (!accountName || !iconId) {
-                console.log('hola');
+            return
         } else {
-            
+
             createNewAccount();
             navigation.goBack()
         }
@@ -73,7 +73,7 @@ const AddAccount = ({ navigation }) => {
                 <MyInputText label={''} initialValue={accountName} onChange={setAccountName} />
 
                 <MyInputText label={'Monto Inicial  $'} initialValue={accountInitialAmount} onChange={setAccountInitialAmount} keyboardType={'decimal'} />
-            
+
                 <View style={{ padding: 5 }}>
                     <MaterialCommunityIcons name={iconName} size={48} color={colorChosed} />
                 </View>
