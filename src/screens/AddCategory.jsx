@@ -5,9 +5,10 @@ import MyInputText from '../components/MyInputText';
 import ColorPicker from '../components/ColorPicker';
 import IconPicker from '../components/IconPicker';
 import { categoryIcons } from '../global/icons';
-import { useDispatch } from 'react-redux';
-import { addExpensesCategory, addIncomeCategory } from '../features/categories/categoriesSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addExpensesCategory, addIncomesCategory } from '../features/categories/categoriesSlice';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { usePostCategoryMutation } from '../services/shopServices';
 
 
 
@@ -17,9 +18,12 @@ const AddCategory = ({ navigation, route }) => {
     const [iconId, setIconId] = useState('')
     const [iconName, setIconName] = useState('')
     const [colorChosed, setColorChosed] = useState('grey')
+    const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
+    const { localId } = useSelector((state) => state.auth.value)
+    const [triggerPostCategories] = usePostCategoryMutation()
 
-
-
+    const allCategories = [...expensesCategories, incomesCategories]
+    console.log(allCategories);
     const { transactionType } = route.params
 
 
@@ -35,18 +39,24 @@ const AddCategory = ({ navigation, route }) => {
             color: colorChosed,
             id: new Date().toString()
         }
-
+        const isThere = allCategories.some(cat=> cat.id === newCategory.id)
+        if(!isThere){
+            const updatedCategories = [...allCategories, newCategory]
+            triggerPostCategories({ categories: updatedCategories, localId })
+            console.log(updatedCategories);
+        }
         if (transactionType === 'expenses') {
             dispatch(addExpensesCategory(newCategory))
         } else {
-            dispatch(addIncomeCategory(newCategory))
+            dispatch(addIncomesCategory(newCategory))
         }
+       
     }
 
 
     const handleAddCategory = () => {
         if (!categoryName || !iconId) {
-            console.log('Falta agregar algo');
+            return;
         } else {
             createNewCategory();
             navigation.goBack()
@@ -58,7 +68,7 @@ const AddCategory = ({ navigation, route }) => {
     return (
         <Pressable onPress={Keyboard.dismiss} style={styles.container}>
             <ScrollView
-            showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}>
 
 
 
@@ -68,7 +78,7 @@ const AddCategory = ({ navigation, route }) => {
                 }}>
                     Crear categoria de {transactionType === 'expenses' ? 'Gastos' : 'Ingresos'}
                 </Text>
-                {!categoryName && <Text style={{color: 'red'}}>Introduzca el nombre de la categoria:</Text>}
+                {!categoryName && <Text style={{ color: 'red' }}>Introduzca el nombre de la categoria:</Text>}
                 <MyInputText label={''} initialValue={categoryName} onChange={setCategorytName} />
 
                 <View style={{ padding: 5 }}>
@@ -100,7 +110,7 @@ export default AddCategory
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
+
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,

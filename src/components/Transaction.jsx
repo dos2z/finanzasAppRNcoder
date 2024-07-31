@@ -7,9 +7,10 @@ import SelectAccount from './SelectAccount'
 import { colors } from '../global/colors'
 import SelectDate from './SelectDate'
 import MyButton from './MyButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addExpense, addIncome } from '../features/transactions/transactionsSlice'
 import { modifyAccount } from '../features/financialAccounts/accountsSlice'
+import { usePostAccountsMutation, usePostTransactionMutation } from '../services/shopServices'
 
 
 
@@ -23,8 +24,26 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
   const [dateSelected, setDateSelected] = useState(new Date())
   const [comment, setComment] = useState('')
   const [isFocus, setIsFocus] = useState(false)
+  const { accounts } = useSelector((state) => state.accounts.value)
+  const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
+  const { localId } = useSelector((state) => state.auth.value)
+  const [triggerPostTransactions, resultPostTransactions] = usePostTransactionMutation()
+  const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
+
+  const allTransactions = [...expensesTransactions, ...incomesTransactions]
+  
+
+  const updateAccount = (accounts, updateAccount) => {
+    console.log(accounts);
+    const filteredAccounts = accounts.filter(account => account.id !== updateAccount.id)
+    console.log(filteredAccounts);
+    const updatedAccounts = [...filteredAccounts, updateAccount]
+    triggerPostAccounts(updatedAccounts) 
+  }
+
 
   const dispatch = useDispatch()
+
 
   const addNewTransaction = () => {
     const newTransaction = {
@@ -35,17 +54,21 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
       date: dateSelected.toLocaleDateString(),
       comment: comment,
       id: new Date().toString(),
-      index: dateSelected.getDate()+dateSelected.getMonth()+dateSelected.getFullYear()
+      index: dateSelected.getDate() + dateSelected.getMonth() + dateSelected.getFullYear()
     }
-    console.log(dateSelected);
+    allTransactions.push(newTransaction)
+    triggerPostTransactions({ transactions: allTransactions, localId })
+
     if (transactionType === 'expenses') {
       const updatedAccountAmount = Number(newTransaction.account.amount) - Number(newTransaction.amount)
       const updatedAccount = { ...newTransaction.account, amount: updatedAccountAmount }
+      updateAccount(accounts, updatedAccount)
       dispatch(modifyAccount(updatedAccount))
       dispatch(addExpense(newTransaction))
     } else {
       const updatedAccountAmount = Number(newTransaction.account.amount) + Number(newTransaction.amount)
       const updatedAccount = { ...newTransaction.account, amount: updatedAccountAmount }
+      updateAccount(accounts, updatedAccount)
       dispatch(modifyAccount(updatedAccount))
       dispatch(addIncome(newTransaction))
     }
@@ -55,17 +78,16 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
     setComment('')
   }
 
- 
+
 
 
   const handleAddTransaction = () => {
-    if(!transactionAmount || ! categorySelected || !accountSelected || !dateSelected){
-      
-    }else{
+    if (!transactionAmount || !categorySelected || !accountSelected || !dateSelected) {
+      return;
+    } else {
       addNewTransaction()
       navigation.navigate('home')
     }
-    
   }
 
 
@@ -79,14 +101,14 @@ const Transaction = ({ transactionType, navigation, myCategories }) => {
       <ScrollView>
         <View style={styles.container}>
 
-          {!transactionAmount && <Text style={{color: 'red'}}>Agregar Monto</Text>}
+          {!transactionAmount && <Text style={{ color: 'red' }}>Agregar Monto</Text>}
           <MyInputText label={'$'} initialValue={transactionAmount} onChange={setTransactionAmount} keyboardType={"decimal"} />
 
-          <Pressable onPress={() => setShowModal(!showModal)} style={{flexDirection: 'row', gap: 20, alignItems: 'center', justifyContent: 'center'}}>
+          <Pressable onPress={() => setShowModal(!showModal)} style={{ flexDirection: 'row', gap: 20, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 20 }}>Cuenta: {accountSelected.name}</Text>
-            {!accountSelected && <Text style={{color: 'red'}}>Seleccionar Cuenta</Text>}
+            {!accountSelected && <Text style={{ color: 'red' }}>Seleccionar Cuenta</Text>}
           </Pressable>
- 
+
           <CategoryPicker categorySelected={categorySelected}
             setCategorySelected={setCategorySelected}
             navigation={navigation}

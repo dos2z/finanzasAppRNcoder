@@ -14,9 +14,9 @@ const FinancialAccounts = ({ navigation }) => {
   const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
   const { localId } = useSelector((state) => state.auth.value)
   const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
-  const [triggerPostCategories, resultPostCategories] = usePostCategoryMutation()
-  const [triggerPostTransactions, resultPostTransactions] = usePostTransactionMutation()
   const dispatch = useDispatch()
+  const allTransactions = [...expensesTransactions, ...incomesTransactions]
+
 
   const deleteAccount = (account) => {
     //Lógica que pregunta si hay transacciones asociadas y si realmente se quiere eliminar la cuenta
@@ -26,20 +26,6 @@ const FinancialAccounts = ({ navigation }) => {
   }
 
 
-  useEffect(() => {
-    const allCategories = [...expensesCategories, ...incomesCategories]
-    const allTransactions = [...expensesTransactions, ...incomesTransactions]
-    if (myAccounts.length > 0) {
-      triggerPostAccounts({ accounts: myAccounts, localId })
-    }
-    if (allCategories && allCategories.length > 0) {
-      triggerPostCategories({ categories: allCategories, localId })
-    }
-    if (allTransactions && allTransactions.length > 0) {
-      triggerPostTransactions({ transactions: allTransactions, localId })
-    }
-
-  }, [myAccounts])
 
 
 

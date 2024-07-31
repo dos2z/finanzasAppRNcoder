@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addAccount } from '../features/financialAccounts/accountsSlice';
-import { usePostAccountMutation } from '../services/shopServices';
+import { usePostAccountsMutation } from '../services/shopServices';
 
 
 const AddAccount = ({ navigation }) => {
@@ -21,7 +21,10 @@ const AddAccount = ({ navigation }) => {
     const [colorChosed, setColorChosed] = useState('grey')
     const {localId} = useSelector((state) => state.auth.value)
     const { accounts } = useSelector((state) => state.accounts.value)
+    const [triggerPostAccounts, result] = usePostAccountsMutation()
     const dispatch = useDispatch()
+
+    const updatedAccounts = [...accounts]
    
 
     const createNewAccount = () => {
@@ -33,6 +36,9 @@ const AddAccount = ({ navigation }) => {
             color: colorChosed,
             id: new Date().toString()
         }
+
+        updatedAccounts.push(newAccount)
+        triggerPostAccounts({accounts: updatedAccounts, localId})
         
         dispatch(addAccount(newAccount))
         

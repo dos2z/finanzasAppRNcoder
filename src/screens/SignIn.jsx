@@ -38,8 +38,6 @@ const SignIn = ({ navigation }) => {
       const errorMessage = result.error.data.error.errors[0].message;
       const errorToRead = errorMessage.replaceAll('_', ' ')
       setError(errorToRead)}
-
-
   }, [result])
 
   return (

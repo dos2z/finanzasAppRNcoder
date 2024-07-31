@@ -11,7 +11,7 @@ export const shopApi = createApi({
 
         postAccounts: builder.mutation({
             query: ({ accounts, localId }) => ({
-                url: `accounts/${localId}.json`,
+                url: `${localId}/accounts.json`,
                 method: 'PUT',
                 body: accounts,
             }),
@@ -19,8 +19,8 @@ export const shopApi = createApi({
         }),
 
         getAccounts: builder.query({
-            query: ({ localId }) => {
-                return `accounts/${localId}.json`
+            query: (localId) => {
+                return `${localId}/accounts.json`
             },
             transformResponse: (res) => {
                 if (res) {
@@ -35,7 +35,7 @@ export const shopApi = createApi({
 
         postCategory: builder.mutation({
             query: ({ categories, localId }) => ({
-                url: `categories/${localId}.json`,
+                url: `${localId}/categories.json`,
                 method: 'PUT',
                 body: categories,
             }),
@@ -44,7 +44,7 @@ export const shopApi = createApi({
 
 
         getCategories: builder.query({
-            query: (localId) => `categories${localId}/json`,
+            query: (localId) => `${localId}/categories.json`,
             transformResponse: (res) => {
                 if (res) {
                     const transformedResponse = Object.values(res);
@@ -58,7 +58,7 @@ export const shopApi = createApi({
 
         postTransaction: builder.mutation({
             query: ({transactions, localId}) => ({
-                url: `transactions/${localId}.json`,
+                url: `${localId}/transactions.json`,
                 method: 'PUT',
                 body: transactions,
             }),
@@ -66,7 +66,7 @@ export const shopApi = createApi({
         }),
 
         getTransactions: builder.query({
-            query: (localId) => `transactions/${localId}.json`,
+            query: (localId) => `${localId}/transactions.json`,
             transformResponse: (res) => {
                 if (res) {
                     const transformedResponse = Object.values(res);

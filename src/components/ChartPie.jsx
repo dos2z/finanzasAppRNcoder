@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { View, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
     
@@ -15,6 +16,8 @@ const ChartPie = ({myCategories, myTransactions, total}) => {
         
         chartData.push(data)
     })
+
+    
 
     return(
         <View>

@@ -1,23 +1,20 @@
 import { Modal, Pressable, FlatList, StyleSheet, Text, View, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import SelectAccount from '../components/SelectAccount'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../global/colors';
 import MyButton from '../components/MyButton';
 import CardTransaction from '../components/CardTransaction';
 import ChartPie from '../components/ChartPie';
-import { useGetAccountsQuery, useGetCategoriesQuery, useGetTransactionsQuery, usePostAccountsMutation, usePostCategoryMutation, usePostTransactionMutation } from '../services/shopServices';
-import { getAccountsFromDB } from '../features/financialAccounts/accountsSlice';
-import { addExpensesCategory, addIncomesCategory } from '../features/categories/categoriesSlice';
-import { addExpense, addIncome } from '../features/transactions/transactionsSlice';
+
 
 
 const Home = () => {
     const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
     const { expensesTransactions, incomesTransactions, totalExpenses, totalIncomes } = useSelector((state) => state.transactions.value)
     const { accounts, total } = useSelector((state) => state.accounts.value)
-
+    const { localId, user } = useSelector((state) => state.auth.value)
 
     const [myTransactions, setMyTransactions] = useState(expensesTransactions)
     const [isExpenses, setIsExpenses] = useState(true)
@@ -25,46 +22,8 @@ const Home = () => {
     const [accountSelected, setAccountSelected] = useState(total)
     const [myCategories, setMyCategories] = useState(expensesCategories)
     const [totalTransactions, setTotalTransactions] = useState(totalExpenses)
-    const { localId } = useSelector((state) => state.auth.value)
-    const { data: dataAccounts } = useGetAccountsQuery({ localId })
-    const { data: dataCategories } = useGetCategoriesQuery(localId)
-    const { data: dataTransactions } = useGetTransactionsQuery(localId)
 
 
-    const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
-    const [triggerPostCategories, resultPostCategories] = usePostCategoryMutation()
-    const [triggerPostTransactions, resultPostTransactions] = usePostTransactionMutation()
-    const dispatch = useDispatch()
-
-
-    dispatch(getAccountsFromDB(dataAccounts))
-
-
-    if (dataCategories) {
-        dataCategories.forEach((category) => {
-            switch (category.type) {
-                case 'expense':
-                    dispatch(addExpensesCategory(category));
-                case 'income':
-                    dispatch(addIncomesCategory(category))
-                default:
-                    break
-            }
-        })
-    }
-    if (dataTransactions) {
-        dataTransactions.forEach((transaction) => {
-            switch (transaction.type) {
-                case 'expense':
-                    dispatch(addExpense(transaction));
-                case 'income':
-                    dispatch(addIncome(transaction));
-                default:
-                    break
-
-            }
-        })
-    }
 
 
     const handleShowTransactionList = (type) => {
@@ -90,20 +49,8 @@ const Home = () => {
         } else {
             setMyTransactions([...incomesTransactions])
             setMyCategories([...incomesCategories])
-
         }
 
-        const allCategories = [...expensesCategories, ...incomesCategories]
-        const allTransactions = [...expensesTransactions, ...incomesTransactions]
-        if (accounts && accounts.length > 0) {
-            triggerPostAccounts({ accounts, localId })
-        }
-        if (allCategories && allCategories.length > 0) {
-            triggerPostCategories({ categories: allCategories, localId })
-        }
-        if (allTransactions && allTransactions.length > 0) {
-            triggerPostTransactions({ transactions: allTransactions, localId })
-        }
 
     }, [accounts])
 
