@@ -5,9 +5,14 @@ import { useDispatch } from 'react-redux';
 import { modifyAccount } from '../features/financialAccounts/accountsSlice';
 
 import { useSelector } from 'react-redux';
+import { usePostAccountsMutation, usePostTransactionMutation } from '../services/shopServices';
 
 const CardTransaction = ({ item }) => {
     const { accounts } = useSelector((state) => state.accounts.value)
+    const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
+    const {localId} = useSelector((state) => state.auth.value)
+    const [triggerPostTransactions] = usePostTransactionMutation()
+    const [triggerPostAccounts] = usePostAccountsMutation()
     const dispatch = useDispatch()
 
     handleUpdatedAccount = (transaction, accountToModify) => {
@@ -15,11 +20,17 @@ const CardTransaction = ({ item }) => {
         transaction.type === 'expenses' ? modifier = 1 : modifier = -1
         const updatedAccountAmount = modifier * Number(transaction.amount) + Number(accountToModify.amount)
         const updatedAccount = { ...transaction.account, amount: Number(updatedAccountAmount) }
+        const myAccounts = accounts.filter(account => account.id !== transaction.account.id)
+        myAccounts.push(updatedAccount)
+        triggerPostAccounts({accounts: myAccounts, localId})
         dispatch(modifyAccount(updatedAccount))
     }
 
     const handleDelete = (transaction) => {
-        const accountToModify = accounts.filter((account) => account.id = item.account.id)[0]
+        const myTransactions = [...expensesTransactions, ...incomesTransactions]
+        const accountToModify = accounts.find((account) => account.id = item.account.id)
+        const updatedTransactions = myTransactions.filter((trans) => trans.id !== transaction.id)
+        triggerPostTransactions({transactions: updatedTransactions, localId})
         handleUpdatedAccount(transaction, accountToModify)
         dispatch(deleteTransaction(transaction))
     }

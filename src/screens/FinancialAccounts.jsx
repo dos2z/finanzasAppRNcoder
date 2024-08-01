@@ -4,25 +4,33 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { removeAccount } from '../features/financialAccounts/accountsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { colors } from '../global/colors';
-import { useEffect } from 'react';
-import { usePostAccountsMutation, usePostCategoryMutation, usePostTransactionMutation } from '../services/shopServices';
+import { useEffect, useState } from 'react';
+import { usePostAccountsMutation } from '../services/shopServices';
 
 
 const FinancialAccounts = ({ navigation }) => {
   const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
   const { accounts: myAccounts, total } = useSelector((state) => state.accounts.value)
-  const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
   const { localId } = useSelector((state) => state.auth.value)
   const [triggerPostAccounts, resultPostAccounts] = usePostAccountsMutation()
   const dispatch = useDispatch()
   const allTransactions = [...expensesTransactions, ...incomesTransactions]
+  const [message, setMessage] = useState('')
 
 
   const deleteAccount = (account) => {
-    //Lógica que pregunta si hay transacciones asociadas y si realmente se quiere eliminar la cuenta
+    const updatedAccounts = myAccounts.filter((acc) => acc.id !== account.id)
+    //Lógica que pregunta si hay transacciones asociadas 
+    const isThereAnyTransaction = allTransactions.some((transaction) => transaction.account.id === account.id)
+    if (!isThereAnyTransaction) {
+      dispatch(removeAccount(account))
+      triggerPostAccounts({ accounts: updatedAccounts, localId })
+    } else {
 
+      setMessage(`Hay transacciones involucradas a la cuenta ${account.name}`)
+      setTimeout(() => { setMessage('') }, 3000)
+    }
 
-    dispatch(removeAccount(account))
   }
 
 
@@ -35,6 +43,8 @@ const FinancialAccounts = ({ navigation }) => {
 
 
       <Text style={styles.title}>Total: $ {total.amount}</Text>
+
+      <Text style={{ color: 'red' }}>{message}</Text>
 
 
       <ScrollView style={styles.accountsContainer}>
