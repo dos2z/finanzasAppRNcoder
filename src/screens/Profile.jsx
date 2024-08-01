@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useGetProfileImageQuery } from '../services/shopServices'
 import { AntDesign } from '@expo/vector-icons';
 import { clearUser } from '../features/user/userSlice'
+import { truncateSession } from '../persistence';
+import { useState } from 'react';
 
 const Profile = ({ navigation }) => {
 
   const dispatch = useDispatch()
+  const [message, setMessage] = useState('')
   
   const {user, imageProfile, localId } = useSelector((state) => state.auth.value)
   const { data: imageFromBase } = useGetProfileImageQuery(localId)
@@ -17,13 +20,19 @@ const Profile = ({ navigation }) => {
   
 
 
-  const handleExit = () => {
-    dispatch(clearUser())
+  const handleExit = async() => {
+    try{
+      const response = await truncateSession()
+      dispatch(clearUser())
+    }catch(error){
+      setMessage(error)
+    }
   }
 
 
   return (
     <View style={styles.container}>
+      <Text>{message}</Text>
       {<Text style={styles.title}>{user}</Text>}
       {imageFromBase || imageProfile ? (
         <>

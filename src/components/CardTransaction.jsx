@@ -40,12 +40,14 @@ const CardTransaction = ({ item }) => {
         <Pressable style={styles.card}>
             <View style={[styles.iconContainer, { backgroundColor: item.category.color }]}>
                 <MaterialCommunityIcons name={item.category.icon} size={32} color={item.category.color !== '#000001' ? 'black' : 'white'} />
+                <Text>{item.category.name}</Text>
             </View>
             <View style={{ gap: 10 }}>
                 <Text style={{ fontSize: 16, fontStyle: 'italic' }}>{item.date}</Text>
                 <View>
                     <Text style={{ fontSize: 16, fontWeight: 'bold' }}>$ {item.amount}</Text>
                     <Text>{item.comment}</Text>
+                    <Text>{item.account.name}</Text>
                 </View>
             </View>
             <Pressable style={{ padding: 20 }} onPress={() => handleDelete(item)}>
@@ -73,9 +75,10 @@ const styles = StyleSheet.create({
         width: '90%',
     },
     iconContainer: {
-        width: 40,
-        height: 40,
+        width: 50,
+        height: 50,
         alignItems: 'center',
         justifyContent: 'center',
+        gap: 2,
     }
 })

@@ -20,6 +20,7 @@ const Home = () => {
     const [isExpenses, setIsExpenses] = useState('')
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
+
     
 
 
@@ -35,7 +36,7 @@ const Home = () => {
 useEffect(()=>{
     setMyTransactions(expensesTransactions)
     setIsExpenses(true)
-},[])
+},[expensesTransactions])
 
 
     return (
