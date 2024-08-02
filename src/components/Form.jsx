@@ -38,7 +38,13 @@ const Form = ({
 
                         <TextInput style={styles.input} textContentType={'emailAddress'} placeholder={'email'} value={email} onChangeText={setEmail} />
 
-                        <TextInput style={styles.input} textContentType={'password'} placeholder={'password'} value={password} onChangeText={setPassword} />
+                        <TextInput style={styles.input} 
+                        textContentType={'password'} 
+                        placeholder={'password'} 
+                        value={password} 
+                        onChangeText={setPassword} 
+                        secureTextEntry={true}
+                        autoCapitalize='none' />
 
                         {signUp &&
                             <>
@@ -46,7 +52,13 @@ const Form = ({
                                     <Text style={{ color: 'red' }}>Las contraseñas no coinciden</Text>
                                 }
 
-                                <TextInput style={styles.input} textContentType={'password'} placeholder={'repeat password'} value={checkPassword} onChangeText={setCheckPassword} />
+                                <TextInput style={styles.input} 
+                                textContentType={'password'} 
+                                placeholder={'repeat password'} 
+                                value={checkPassword} 
+                                onChangeText={setCheckPassword} 
+                                secureTextEntry={true} 
+                                autoCapitalize='none'/>
 
                             </>
                         }
