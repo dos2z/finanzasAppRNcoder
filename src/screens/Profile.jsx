@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable, Platform } from 'react-native'
 import { colors } from '../global/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useGetProfileImageQuery } from '../services/shopServices'
@@ -11,20 +11,22 @@ const Profile = ({ navigation }) => {
 
   const dispatch = useDispatch()
   const [message, setMessage] = useState('')
-  
-  const {user, imageProfile, localId } = useSelector((state) => state.auth.value)
+
+  const { user, imageProfile, localId } = useSelector((state) => state.auth.value)
   const { data: imageFromBase } = useGetProfileImageQuery(localId)
 
-  
-
-  
 
 
-  const handleExit = async() => {
-    try{
-      const response = await truncateSession()
+
+
+
+  const handleExit = async () => {
+    try {
+      if (Platform !== 'web') {
+        const response = await truncateSession()
+      }
       dispatch(clearUser())
-    }catch(error){
+    } catch (error) {
       setMessage(error)
     }
   }
@@ -43,9 +45,9 @@ const Profile = ({ navigation }) => {
           />
           <Pressable
             onPress={() => navigation.navigate("imagePicker")}
-            style={({ pressed }) => [{backgroundColor: colors.BGbutton}, { opacity: pressed ? 0.6 : 1 }]}
+            style={({ pressed }) => [{ backgroundColor: colors.BGbutton }, { opacity: pressed ? 0.6 : 1 }]}
           >
-             <Text style={{ fontSize: '16' }}>Modificar foto de perfil</Text> 
+            <Text style={{ fontSize: '16' }}>Modificar foto de perfil</Text>
           </Pressable>
         </>
 

@@ -47,6 +47,7 @@ export const transactionsSlice = createSlice({
         },
         deleteTransaction: (state, { payload }) => {
             if (payload.type === 'expenses') {
+                
                 const updatedTransactions = state.value.expensesTransactions.filter((transaction) => {
                     return transaction.id !== payload.id
                 })

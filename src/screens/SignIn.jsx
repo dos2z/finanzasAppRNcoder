@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Form from '../components/Form'
 import { useSignInMutation } from '../services/authServices'
@@ -12,6 +12,8 @@ const SignIn = ({ navigation }) => {
   const dispatch = useDispatch()
   const [triggerSignIn, result] = useSignInMutation()
   const [error, setError] = useState('')
+
+
 
   const goToSignUp = () => {
     navigation.navigate('signUp')
@@ -30,19 +32,29 @@ const SignIn = ({ navigation }) => {
   }
   useEffect(() => {
     if (result?.data && result.isSuccess) {
-      inserSession({
-        email: result.data.email,
-        token: result.data.token,
-        localId: result.data.localId,
-      }).then((response) => {
+
+      if (Platform.OS !== 'web') {
+        inserSession({
+          email: result.data.email,
+          token: result.data.token,
+          localId: result.data.localId,
+        }).then((response) => {
+          dispatch(setUser({
+            email: result.data.email,
+            idToken: result.data.idToken,
+            localId: result.data.localId,
+          }))
+        }).catch(error => {
+          setError(error)
+        })
+      } else {
         dispatch(setUser({
           email: result.data.email,
           idToken: result.data.idToken,
           localId: result.data.localId,
         }))
-      }).catch(error => {
-        setError(error)
-      })
+
+      }
 
     } else if (result.error) {
       const errorMessage = result.error.data.error.errors[0].message;

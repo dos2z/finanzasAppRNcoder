@@ -28,7 +28,7 @@ const CardTransaction = ({ item }) => {
 
     const handleDelete = (transaction) => {
         const myTransactions = [...expensesTransactions, ...incomesTransactions]
-        const accountToModify = accounts.find((account) => account.id = item.account.id)
+        const accountToModify = accounts.find((account) => account.id === transaction.account.id)
         const updatedTransactions = myTransactions.filter((trans) => trans.id !== transaction.id)
         triggerPostTransactions({transactions: updatedTransactions, localId})
         handleUpdatedAccount(transaction, accountToModify)

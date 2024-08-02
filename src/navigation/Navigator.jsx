@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import BottomTabNavigation from './BottomTabNavigation'
@@ -15,23 +15,29 @@ const Navigator = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await getSession()
+        if (Platform.OS !== 'web') {
+          const response = await getSession()
+        }
         if (response.rows.length) {
           const user = response.rows._array[0]
           dispatch(setUser({
             email: user.email,
             localId: user.localId,
             token: user.token
-          }
-
-          ))
+          }))
+        } else {
+          dispatch(setUser({
+            email: user.email,
+            localId: user.localId,
+            token: user.token
+          }))
         }
       } catch (error) {
 
       }
     })
   }, [])
-  
+
   return (
     <NavigationContainer>
       {user ? <BottomTabNavigation />

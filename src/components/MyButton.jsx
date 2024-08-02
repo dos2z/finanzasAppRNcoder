@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Pressable} from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../global/colors'
 import { baseUrl } from '../database/realTimeDataBase'
@@ -19,21 +19,26 @@ const MyButton = ({ title, onPress, type }) => {
     const regular = {
         borderWidth: 0,
     }
-    let borderStyle
-    if (type === 'accept'){
-        borderStyle = accept
-    }else if(type === 'cancel'){
-        borderStyle = cancel
-    }else if(type === 'disabled'){
-        borderStyle = disabled
+    const select = {
+        borderColor: 'black'
     }
-    else{
+    let borderStyle
+    if (type === 'accept') {
+        borderStyle = accept
+    } else if (type === 'cancel') {
+        borderStyle = cancel
+    } else if (type === 'disabled') {
+        borderStyle = disabled
+    } else if (type === 'select') {
+        borderStyle = select
+    }
+    else {
         borderStyle = regular
     }
 
 
     return (
-        <Pressable style={({pressed})=>[styles.button, borderStyle, {opacity: pressed ? 0.6 : 1}]} onPress={onPress}>
+        <Pressable style={({ pressed }) => [styles.button, borderStyle, { opacity: pressed ? 0.6 : 1 }]} onPress={onPress}>
             <Text style={styles.buttonText}>{title}</Text>
         </Pressable>
     )

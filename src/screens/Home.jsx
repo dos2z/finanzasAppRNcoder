@@ -1,5 +1,5 @@
 import { Modal, Pressable, FlatList, StyleSheet, Text, View } from 'react-native'
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SelectAccount from '../components/SelectAccount'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,17 +12,17 @@ import ChartPieIncomes from '../components/ChartPieIncomes'
 
 
 const Home = () => {
-    
+
     const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
-    const { total } = useSelector((state) => state.accounts.value)
+    const { total, accounts } = useSelector((state) => state.accounts.value)
 
     const [myTransactions, setMyTransactions] = useState('')
-    const [isExpenses, setIsExpenses] = useState('')
+    const [isExpenses, setIsExpenses] = useState(true)
     const [showSelectAccount, setShowSelectAccount] = useState(false)
     const [accountSelected, setAccountSelected] = useState(total)
 
-    
 
+    
 
     const handleShowTransactionList = (type) => {
         if (type === 'expenses') {
@@ -33,10 +33,13 @@ const Home = () => {
             setMyTransactions(incomesTransactions)
         }
     }
-useEffect(()=>{
-    setMyTransactions(expensesTransactions)
-    setIsExpenses(true)
-},[expensesTransactions])
+    useEffect(() => {
+        if (isExpenses) {
+            setMyTransactions(expensesTransactions)
+        } else {
+            setMyTransactions(incomesTransactions)
+        }
+    }, [incomesTransactions, expensesTransactions])
 
 
     return (
@@ -54,17 +57,17 @@ useEffect(()=>{
             </Pressable>
 
             <View style={styles.graphicContainer}>
-               
-                    {isExpenses?
-                    <ChartPieExpenses isExpenses={isExpenses} />:
+
+                {isExpenses ?
+                    <ChartPieExpenses isExpenses={isExpenses} /> :
                     <ChartPieIncomes />
-                    }
-                
+                }
+
             </View>
 
             <View style={styles.btnContainer}>
-                <MyButton title={'Gastos'} onPress={() => handleShowTransactionList('expenses')} type={isExpenses && 'accept'} />
-                <MyButton title={'Ingresos'} onPress={() => handleShowTransactionList('incomes')} type={!isExpenses && 'accept'} />
+                <MyButton title={'Gastos'} onPress={() => handleShowTransactionList('expenses')} type={isExpenses && 'select'} />
+                <MyButton title={'Ingresos'} onPress={() => handleShowTransactionList('incomes')} type={!isExpenses && 'select'} />
             </View>
 
             <FlatList

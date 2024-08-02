@@ -21,9 +21,10 @@ const Tab = createBottomTabNavigator()
 
 
 const BottomTabNavigation = () => {
+    const [transactionsComparador, setTransactionsComparador] = useState('')
     const { localId } = useSelector((state) => state.auth.value)
     const { expensesCategories, incomesCategories } = useSelector((state) => state.categories.value)
-    const { expensesTransactions, incomesTransactions} = useSelector((state) => state.transactions.value)
+    const { expensesTransactions, incomesTransactions } = useSelector((state) => state.transactions.value)
     const { data: dataAccounts, isLoading: isLoadingAccounts } = useGetAccountsQuery(localId)
     const { data: dataCategories, isloading: isLoadingCategories } = useGetCategoriesQuery(localId)
     const { data: dataTransactions, isloading: isLoadingTransactions } = useGetTransactionsQuery(localId)
@@ -39,10 +40,10 @@ const BottomTabNavigation = () => {
         let transactions = data ?? []
         transactions.forEach((transaction) => {
             let isThere
-            if(transaction){
+            if (transaction) {
                 isThere = allTransactions.some(trans => trans.id === transaction.id)
             }
-        
+
             if (transaction && !isThere) {
                 switch (transaction.type) {
                     case 'expenses':
@@ -52,7 +53,7 @@ const BottomTabNavigation = () => {
                     default:
                         break
                 }
-            }else{
+            } else {
                 return
             }
 
@@ -63,7 +64,7 @@ const BottomTabNavigation = () => {
         let categories = data ?? []
         categories.forEach((category) => {
             let isThere
-            if (category){
+            if (category) {
                 isThere = allCategories.some(cat => cat.id === category.id)
             }
             if (category && !isThere) {
@@ -75,7 +76,7 @@ const BottomTabNavigation = () => {
                     default:
                         break
                 }
-            }else{
+            } else {
                 return
             }
         })
@@ -87,8 +88,21 @@ const BottomTabNavigation = () => {
         if (localId) {
             if (dataAccounts, dataTransactions, dataCategories) {
                 getAccounts(dataAccounts)
+                
                 const allTransactions = [...expensesTransactions, ...incomesTransactions]
-                getTransactions(dataTransactions, allTransactions)   
+                if (transactionsComparador) {
+                    if (transactionsComparador.length === dataTransactions.length) {
+                       return
+                    }else{
+                         getTransactions(dataTransactions, allTransactions)
+                         setTransactionsComparador(dataTransactions)
+                    }
+                } else {
+                    getTransactions(dataTransactions, allTransactions)
+                    setTransactionsComparador(dataTransactions)
+
+                }
+
                 const allCategories = [...expensesCategories, ...incomesCategories]
                 getCategories(dataCategories, allCategories)
             }
